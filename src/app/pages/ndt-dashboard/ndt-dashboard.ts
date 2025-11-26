@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { TestObject } from '@/widgets/test-object/test-object';
-import { VisualTestingWidget } from '@/widgets/visual-testing-widget/visual-testing-widget';
-import { UltrasonicTestingWidget } from '@/widgets/ultrasonic-testing-widget/ultrasonic-testing-widget';
-import { RadiographicTestingWidget } from '@/widgets/radiographic-testing-widget/radiographic-testing-widget';
+import { TestObjectWidget } from '@/pages/ndt-dashboard/widgets/test-object-widget/test-object-widget';
+import { VisualTestingWidget } from '@/pages/ndt-dashboard/widgets/visual-testing-widget/visual-testing-widget';
+import { UltrasonicTestingWidget } from '@/pages/ndt-dashboard/widgets/ultrasonic-testing-widget/ultrasonic-testing-widget';
+import { RadiographicTestingWidget } from '@/pages/ndt-dashboard/widgets/radiographic-testing-widget/radiographic-testing-widget';
 import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-ndt-dashboard',
-    imports: [TestObject, VisualTestingWidget,
+    imports: [TestObjectWidget, VisualTestingWidget,
         UltrasonicTestingWidget, RadiographicTestingWidget, RouterLink],
     templateUrl: './ndt-dashboard.html',
     styleUrl: './ndt-dashboard.scss'
