@@ -4,6 +4,7 @@ import { StatsWidget } from './components/statswidget';
 import { RecentSalesWidget } from './components/recentsaleswidget';
 import { BestSellingWidget } from './components/bestsellingwidget';
 import { RevenueStreamWidget } from './components/revenuestreamwidget';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',

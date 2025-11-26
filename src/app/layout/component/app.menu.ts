@@ -25,6 +25,10 @@ export class AppMenu {
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }]
             },
             {
+                label: 'Работа',
+                items: [{ label: 'Неразрушающий контроль', icon: 'fa-solid fa-pen-ruler', routerLink: ['/ndt-dashboard'] }]
+            },
+            {
                 label: 'UI Components',
                 items: [
                     { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },

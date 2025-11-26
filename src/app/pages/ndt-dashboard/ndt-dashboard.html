@@ -1,0 +1,30 @@
+<section class="p-4 space-y-4">
+    <div class="flex items-center justify-between gap-4">
+        <h1 class="text-xl font-semibold tracking-tight">
+            Неразрушающий контроль
+        </h1>
+        <!-- Пример навигации через routerLink (кнопка "обновить") -->
+        <a
+            routerLink="/ndt-dashboard"
+            class="hidden md:inline-flex items-center gap-2 text-sm font-medium
+             text-sky-600 hover:text-sky-700 hover:underline"
+        >
+            <i class="pi pi-sliders-h text-sm"></i>
+            <span>Перейти к НК</span>
+        </a>
+    </div>
+
+    <div class="grid gap-4 xl:grid-cols-4 items-start">
+        <!-- Основной виджет слева, широкий -->
+        <div class="xl:col-span-1 space-y-4">
+            <app-test-object></app-test-object>
+        </div>
+
+        <!-- Справа три виджета в колонку -->
+        <div class="xl:col-span-3 space-y-4">
+            <app-visual-testing-widget></app-visual-testing-widget>
+            <app-ultrasonic-testing-widget></app-ultrasonic-testing-widget>
+            <app-radiographic-testing-widget></app-radiographic-testing-widget>
+        </div>
+    </div>
+</section>
