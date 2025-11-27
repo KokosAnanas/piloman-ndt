@@ -1,4 +1,4 @@
-<section class="p-4 space-y-4">
+<section class="p-4">
     <div class="flex items-center justify-between gap-4">
         <h1 class="text-xl font-semibold tracking-tight">
             Неразрушающий контроль
@@ -9,22 +9,34 @@
             class="hidden md:inline-flex items-center gap-2 text-sm font-medium
              text-sky-600 hover:text-sky-700 hover:underline"
         >
-            <i class="pi pi-sliders-h text-sm"></i>
+            <i class="fa-solid fa-pen-ruler text-sm"></i>
             <span>Перейти к НК</span>
         </a>
     </div>
 
-    <div class="grid gap-4 xl:grid-cols-4 items-start">
-        <!-- Основной виджет слева, широкий -->
-        <div class="xl:col-span-1 space-y-4">
+    <!-- Сетка всего дашборда -->
+    <div class="columns-1
+            sm:columns-2
+            lg:columns-3
+            xl:columns-4
+            gap-4">
+
+        <!-- Основной виджет слева -->
+        <div class="break-inside-avoid-column mb-4">
             <app-test-object-widget></app-test-object-widget>
         </div>
 
-        <!-- Справа три виджета в колонку -->
-        <div class="xl:col-span-3 space-y-4">
+        <div class="break-inside-avoid-column mb-4">
             <app-visual-testing-widget></app-visual-testing-widget>
+        </div>
+
+        <div class="break-inside-avoid-column mb-4">
             <app-ultrasonic-testing-widget></app-ultrasonic-testing-widget>
+        </div>
+
+        <div class="break-inside-avoid-column mb-4">
             <app-radiographic-testing-widget></app-radiographic-testing-widget>
         </div>
+
     </div>
 </section>
