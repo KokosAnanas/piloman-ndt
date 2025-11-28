@@ -1,17 +1,8 @@
-<section class="p-4">
+<section class="">
     <div class="flex items-center justify-between gap-4">
-        <h1 class="text-xl font-semibold tracking-tight">
+        <div class="text-3xl mb-3">
             Неразрушающий контроль
-        </h1>
-        <!-- Пример навигации через routerLink (кнопка "обновить") -->
-        <a
-            routerLink="/ndt-dashboard"
-            class="hidden md:inline-flex items-center gap-2 text-sm font-medium
-             text-sky-600 hover:text-sky-700 hover:underline"
-        >
-            <i class="fa-solid fa-pen-ruler text-sm"></i>
-            <span>Перейти к НК</span>
-        </a>
+        </div>
     </div>
 
     <!-- Сетка всего дашборда -->
@@ -19,23 +10,28 @@
             sm:columns-2
             lg:columns-3
             xl:columns-4
+            2xl:columns-5
             gap-4">
 
         <!-- Основной виджет слева -->
-        <div class="break-inside-avoid-column mb-4">
+        <div class="break-inside-avoid-column mb-5">
             <app-test-object-widget></app-test-object-widget>
         </div>
 
-        <div class="break-inside-avoid-column mb-4">
+        <div class="break-inside-avoid-column mb-5">
             <app-visual-testing-widget></app-visual-testing-widget>
         </div>
 
-        <div class="break-inside-avoid-column mb-4">
+        <div class="break-inside-avoid-column mb-5">
             <app-ultrasonic-testing-widget></app-ultrasonic-testing-widget>
         </div>
 
-        <div class="break-inside-avoid-column mb-4">
+        <div class="break-inside-avoid-column mb-5">
             <app-radiographic-testing-widget></app-radiographic-testing-widget>
+        </div>
+
+        <div class="break-inside-avoid-column mb-5">
+            <app-penetrant-testing-widget></app-penetrant-testing-widget>
         </div>
 
     </div>
