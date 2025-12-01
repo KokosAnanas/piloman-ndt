@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TestObjectWidget } from '@/pages/ndt-dashboard/widgets/test-object-widget/test-object-widget';
+import { WeldParamsWidget } from '@/pages/ndt-dashboard/widgets/weld-params-widget/weld-params-widget';
 import { VisualTestingWidget } from '@/pages/ndt-dashboard/widgets/visual-testing-widget/visual-testing-widget';
 import { UltrasonicTestingWidget } from '@/pages/ndt-dashboard/widgets/ultrasonic-testing-widget/ultrasonic-testing-widget';
 import { RadiographicTestingWidget } from '@/pages/ndt-dashboard/widgets/radiographic-testing-widget/radiographic-testing-widget';
@@ -9,7 +9,7 @@ import {
 
 @Component({
     selector: 'app-ndt-dashboard',
-    imports: [TestObjectWidget, VisualTestingWidget,
+    imports: [WeldParamsWidget, VisualTestingWidget,
         UltrasonicTestingWidget, RadiographicTestingWidget,
         PenetrantTestingWidget],
     templateUrl: './ndt-dashboard.html',

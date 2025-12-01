@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestObjectWidget } from './test-object-widget';
+import { WeldParamsWidget } from './weld-params-widget';
 
-describe('TestObjectWidget', () => {
-  let component: TestObjectWidget;
-  let fixture: ComponentFixture<TestObjectWidget>;
+describe('WeldParamsWidget', () => {
+  let component: WeldParamsWidget;
+  let fixture: ComponentFixture<WeldParamsWidget>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestObjectWidget]
+      imports: [WeldParamsWidget]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TestObjectWidget);
+    fixture = TestBed.createComponent(WeldParamsWidget);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
