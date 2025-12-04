@@ -6,12 +6,15 @@ import { RadiographicTestingWidget } from '@/pages/ndt-dashboard/widgets/radiogr
 import {
     PenetrantTestingWidget
 } from '@/pages/ndt-dashboard/widgets/penetrant-testing-widget/penetrant-testing-widget';
+import { Button } from 'primeng/button';
+import { Fluid } from 'primeng/fluid';
+import { InputText } from 'primeng/inputtext';
+import { Select } from 'primeng/select';
+import { Textarea } from 'primeng/textarea';
 
 @Component({
     selector: 'app-ndt-dashboard',
-    imports: [WeldParamsWidget, VisualTestingWidget,
-        UltrasonicTestingWidget, RadiographicTestingWidget,
-        PenetrantTestingWidget],
+    imports: [WeldParamsWidget, VisualTestingWidget, UltrasonicTestingWidget, RadiographicTestingWidget, PenetrantTestingWidget, Fluid],
     templateUrl: './ndt-dashboard.html',
     styleUrl: './ndt-dashboard.scss'
 })

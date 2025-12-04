@@ -1,49 +1,93 @@
-<p-card header="Параметры сварного соединения">
-    <div class="space-y-6">
-        <div class="grid gap-4 md:grid-cols-2">
-            <div class="flex flex-col gap-1">
-                <label class="text-sm font-medium text-slate-700">Диаметр, мм</label>
-                <input
-                    type="number"
-                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
-                 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                    placeholder="530"
-                />
-            </div>
+<p-card>
+    <!-- Адаптивная сетка всех полей, заполняем по столбцам -->
+    <div
+        class="grid gap-x-6 gap-y-1
+         grid-cols-1
+         sm:grid-cols-2 sm:grid-rows-6 sm:grid-flow-col
+         lg:grid-cols-3 lg:grid-rows-4
+         xl:grid-cols-4 xl:grid-rows-3"
+    >
+        <!-------------- Диаметр ------------------>
+        <div class="flex items-center gap-1">
+            <label
+                for="diameter"
+                class="w-25 shrink-0 text-base font-medium text-slate-700"
+            >
+                Диаметр
+            </label>
 
-            <div class="flex flex-col gap-1">
-                <label class="text-sm font-medium text-slate-700">Толщина S1, мм</label>
-                <input
-                    type="number"
-                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
-                 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                    placeholder="10"
-                />
-            </div>
-
-            <div class="flex flex-col gap-1">
-                <label class="text-sm font-medium text-slate-700">Толщина S2, мм</label>
-                <input
-                    type="number"
-                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
-                 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                    placeholder="8"
-                />
-            </div>
-
-            <div class="flex flex-col gap-1">
-                <label class="text-sm font-medium text-slate-700">Уровень качества</label>
-                <select
-                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
-                 bg-white focus:outline-none focus:ring-2 focus:ring-sky-500"
-                >
-
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                </select>
-            </div>
+            <p-inputNumber
+                class="flex-1"
+                inputId="diameter"
+                [mode]="'decimal'"
+                inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                placeholder="мм"
+                suffix=" мм"
+                [showButtons]="true"
+                [min]="0"
+            ></p-inputNumber>
         </div>
 
+        <!----------------- Толщина S1 --------------->
+        <div class="flex items-center gap-1">
+            <label
+                for="s1"
+                class="w-25 shrink-0 text-base font-medium text-slate-700"
+            >
+                Толщина S1
+            </label>
+
+            <p-inputNumber
+                class="flex-1"
+                inputId="s1"
+                [mode]="'decimal'"
+                inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                placeholder="мм"
+                suffix=" мм"
+                [showButtons]="true"
+                [min]="0"
+            ></p-inputNumber>
+        </div>
+
+        <!-- Толщина S2 -->
+        <div class="flex items-center gap-1">
+            <label
+                for="s2"
+                class="w-25 shrink-0 text-base font-medium text-slate-700"
+            >
+                Толщина S2
+            </label>
+
+            <p-inputNumber
+                class="flex-1"
+                inputId="s2"
+                [mode]="'decimal'"
+                inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                placeholder="мм"
+                suffix=" мм"
+                [showButtons]="true"
+                [min]="0"
+            ></p-inputNumber>
+        </div>
+
+
+        <!-- Уровень качества -->
+        <div class="flex items-center gap-1">
+            <label
+                for="qualityLevel"
+                class="w-35 shrink-0 text-base font-medium text-slate-700"
+            >
+                Уровень качества
+            </label>
+
+            <p-select
+                class="flex-1 w-full"
+                inputId="qualityLevel"
+                [options]="qualityLevels"
+                placeholder="Выберите уровень"
+            >
+            </p-select>
+        </div>
     </div>
+
 </p-card>
