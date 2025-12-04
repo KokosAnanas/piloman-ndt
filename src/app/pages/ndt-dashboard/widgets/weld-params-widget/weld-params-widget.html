@@ -11,7 +11,7 @@
         <div class="flex items-center gap-1">
             <label
                 for="diameter"
-                class="w-25 shrink-0 text-base font-medium text-slate-700"
+                class="w-20 shrink-0 text-sm font-medium text-slate-700"
             >
                 Диаметр
             </label>
@@ -25,6 +25,7 @@
                 suffix=" мм"
                 [showButtons]="true"
                 [min]="0"
+                size="small"
             ></p-inputNumber>
         </div>
 
@@ -32,7 +33,7 @@
         <div class="flex items-center gap-1">
             <label
                 for="s1"
-                class="w-25 shrink-0 text-base font-medium text-slate-700"
+                class="w-20 shrink-0 text-sm font-medium text-slate-700"
             >
                 Толщина S1
             </label>
@@ -46,14 +47,15 @@
                 suffix=" мм"
                 [showButtons]="true"
                 [min]="0"
+                size="small"
             ></p-inputNumber>
         </div>
 
-        <!-- Толщина S2 -->
+        <!------------------ Толщина S2 ------------------------------>
         <div class="flex items-center gap-1">
             <label
                 for="s2"
-                class="w-25 shrink-0 text-base font-medium text-slate-700"
+                class="w-20 shrink-0 text-sm font-medium text-slate-700"
             >
                 Толщина S2
             </label>
@@ -67,15 +69,16 @@
                 suffix=" мм"
                 [showButtons]="true"
                 [min]="0"
+                size="small"
             ></p-inputNumber>
         </div>
 
 
-        <!-- Уровень качества -->
+        <!--------------------------- Уровень качества -------------------------------->
         <div class="flex items-center gap-1">
             <label
                 for="qualityLevel"
-                class="w-35 shrink-0 text-base font-medium text-slate-700"
+                class="w-20 shrink-0 text-sm/4 font-medium text-slate-700"
             >
                 Уровень качества
             </label>
@@ -84,10 +87,62 @@
                 class="flex-1 w-full"
                 inputId="qualityLevel"
                 [options]="qualityLevels"
-                placeholder="Выберите уровень"
+                placeholder=""
+                size="small"
             >
             </p-select>
         </div>
-    </div>
 
+        <!--------------------- Способ сварки ------------------------------------------>
+        <div class="flex items-center gap-1 min-w-0">
+            <label
+                for="weldingProcess"
+                class="w-24 shrink-0 text-sm/4 font-medium text-slate-700"
+            >
+                Способ сварки
+            </label>
+
+            <p-select
+                class="flex-1 min-w-0 w-full"
+                inputId="weldingProcess"
+                [options]="weldingProcess"
+                placeholder=""
+                size="small"
+            >
+            </p-select>
+        </div>
+
+        <!--------------------- Тип сварного соединения ------------------------------------------>
+        <div class="flex items-center gap-1 min-w-0">
+            <label
+                for="weldingProcess"
+                class="w-24 shrink-0 text-sm/4 font-medium text-slate-700 "
+            >
+                Тип сварного соединения
+            </label>
+
+            <p-select
+                class="flex-1 min-w-0 w-full"
+                inputId="joint"
+                [options]="joint"
+                placeholder=""
+                size="small"
+            >
+            </p-select>
+        </div>
+
+        <div
+            class="
+                mt-2
+                xl:col-start-3  xl:row-start-1 xl:row-span-3
+                xl:flex xl:items-center xl:justify-center
+            "
+        >
+            <img
+                ngSrc="assets/demo/img/i.jpg"
+            alt="Профиль сварного шва"
+            class="w-full h-full object-contain"
+                height="120" width="372" />
+        </div>
+    </div>
 </p-card>
