@@ -1,14 +1,17 @@
 <p-card>
-    <!-- Адаптивная сетка всех полей, заполняем по столбцам -->
+    <!-- Адаптивная сетка параметров шва -->
     <div
-        class="grid gap-x-6 gap-y-1
-         grid-cols-1
-         sm:grid-cols-2 sm:grid-rows-6 sm:grid-flow-col
-         lg:grid-cols-3 lg:grid-rows-4
-         xl:grid-cols-4 xl:grid-rows-3"
+        class="grid gap-x-6 gap-y-2
+               grid-cols-1
+               sm:grid-cols-2 sm:grid-rows-6
+               xl:grid-cols-4 xl:grid-rows-3"
     >
-        <!-------------- Диаметр ------------------>
-        <div class="flex items-center gap-1">
+        <!-- 1. Диаметр -->
+        <div
+            class="flex items-center gap-1
+                   sm:col-start-1 sm:row-start-1
+                   xl:col-start-1 xl:row-start-1"
+        >
             <label
                 for="diameter"
                 class="w-20 shrink-0 text-sm font-medium text-slate-700"
@@ -29,8 +32,12 @@
             ></p-inputNumber>
         </div>
 
-        <!----------------- Толщина S1 --------------->
-        <div class="flex items-center gap-1">
+        <!-- 2. Толщина S1 -->
+        <div
+            class="flex items-center gap-1
+                   sm:col-start-1 sm:row-start-2
+                   xl:col-start-1 xl:row-start-2"
+        >
             <label
                 for="s1"
                 class="w-20 shrink-0 text-sm font-medium text-slate-700"
@@ -51,8 +58,12 @@
             ></p-inputNumber>
         </div>
 
-        <!------------------ Толщина S2 ------------------------------>
-        <div class="flex items-center gap-1">
+        <!-- 3. Толщина S2 -->
+        <div
+            class="flex items-center gap-1
+                   sm:col-start-1 sm:row-start-3
+                   xl:col-start-1 xl:row-start-3"
+        >
             <label
                 for="s2"
                 class="w-20 shrink-0 text-sm font-medium text-slate-700"
@@ -73,9 +84,12 @@
             ></p-inputNumber>
         </div>
 
-
-        <!--------------------------- Уровень качества -------------------------------->
-        <div class="flex items-center gap-1">
+        <!-- 4. Уровень качества -->
+        <div
+            class="flex items-center gap-1
+                   sm:col-start-1 sm:row-start-4
+                   xl:col-start-2 xl:row-start-1"
+        >
             <label
                 for="qualityLevel"
                 class="w-20 shrink-0 text-sm/4 font-medium text-slate-700"
@@ -93,8 +107,12 @@
             </p-select>
         </div>
 
-        <!--------------------- Способ сварки ------------------------------------------>
-        <div class="flex items-center gap-1 min-w-0">
+        <!-- 5. Способ сварки -->
+        <div
+            class="flex items-center gap-1 min-w-0
+                   sm:col-start-1 sm:row-start-5
+                   xl:col-start-2 xl:row-start-2"
+        >
             <label
                 for="weldingProcess"
                 class="w-24 shrink-0 text-sm/4 font-medium text-slate-700"
@@ -112,10 +130,14 @@
             </p-select>
         </div>
 
-        <!--------------------- Тип сварного соединения ------------------------------------------>
-        <div class="flex items-center gap-1 min-w-0">
+        <!-- 6. Тип сварного соединения -->
+        <div
+            class="flex items-center gap-1 min-w-0
+                   sm:col-start-1 sm:row-start-6
+                   xl:col-start-2 xl:row-start-3"
+        >
             <label
-                for="weldingProcess"
+                for="joint"
                 class="w-24 shrink-0 text-sm/4 font-medium text-slate-700 "
             >
                 Тип сварного соединения
@@ -131,18 +153,24 @@
             </p-select>
         </div>
 
+        <!-- Картинка профиля шва -->
         <div
             class="
                 mt-2
-                xl:col-start-3  xl:row-start-1 xl:row-span-3
-                xl:flex xl:items-center xl:justify-center
+                sm:col-start-2 sm:row-start-1 sm:row-span-6
+                xl:col-start-3 xl:row-start-1 xl:row-span-3
+                flex items-center justify-center
             "
         >
             <img
                 ngSrc="assets/demo/img/i.jpg"
-            alt="Профиль сварного шва"
-            class="w-full h-full object-contain"
-                height="120" width="372" />
+                alt="Профиль сварного шва"
+                class="w-full h-full object-contain"
+                height="120" width="372"
+            />
         </div>
+
+        <!-- 4-й столбец на xl оставляем свободным под будущее:
+             элементы туда можно будет ставить с xl:col-start-4 ... -->
     </div>
 </p-card>
