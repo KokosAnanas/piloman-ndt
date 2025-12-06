@@ -51,7 +51,7 @@
                 [mode]="'decimal'"
                 inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                 placeholder="мм"
-                suffix=" мм"
+                suffix="   мм"
                 [showButtons]="true"
                 [min]="0"
                 size="small"
@@ -77,7 +77,7 @@
                 [mode]="'decimal'"
                 inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                 placeholder="мм"
-                suffix=" мм"
+                suffix="   мм"
                 [showButtons]="true"
                 [min]="0"
                 size="small"
@@ -156,20 +156,18 @@
         <!----------------- 7. Картинка профиля шва --------------------------->
         <div
             class="mt-2 flex items-center justify-center
-                   sm:col-start-2 sm:row-start-1 sm:row-span-3
-                   xl:col-start-3 xl:row-start-1 xl:row-span-3"
+         sm:col-start-2 sm:row-start-1 sm:row-span-3
+         xl:col-start-3 xl:row-start-1 xl:row-span-3"
         >
-            <img
-                ngSrc="assets/demo/img/i.jpg"
-                alt="Профиль сварного шва"
-                class="
-                    w-full max-w-[186px] h-auto
-                    sm:w-[186px] sm:h-[60px]
-                    object-contain
-                "
-                width="372"
-                height="120"
-            />
+            <div class="w-[186px] max-w-full">
+                <img
+                    ngSrc="assets/demo/img/i.jpg"
+                    alt="Профиль сварного шва"
+                    width="372"
+                    height="120"
+                    class="block w-full h-auto object-contain"
+                />
+            </div>
         </div>
 
         <!----------------- 8. Группы кнопок НК ------------------------>
@@ -180,15 +178,16 @@
            flex"
         >
             <!-- внутренний грид 2x3 для 6 групп -->
-            <div class="grid grid-cols-2 gap-2 w-full">
+            <div class="grid gap-1 w-full
+                        sm:grid-cols-2">
                 <ng-container *ngFor="let method of ndtMethods">
-                    <div class="flex items-center justify-center gap-2 w-full">
-        <span
-            class="text-sm font-medium text-slate-700 leading-tight text-center
-                   w-16 break-words"
-        >
-            {{ method.label }}
-        </span>
+                    <div class="flex items-center justify-center gap-1 w-full">
+                        <span
+                            class="text-sm font-medium text-slate-700 leading-tight text-center
+                                   w-16 break-words"
+                        >
+                            {{ method.label }}
+                        </span>
 
                         <p-buttongroup class="flex-shrink-0">
                             <p-button
@@ -196,9 +195,7 @@
                                 size="small"
                                 icon="fa-solid fa-book"
                                 [outlined]="!method.bookActive"
-                                [ngClass]="{
-                    '!bg-sky-500 !text-white': method.bookActive
-                }"
+                                [ngClass]="{'!bg-sky-500 !text-white': method.bookActive}"
                                 (onClick)="toggleMethod(method.key, 'book')"
                                 ariaLabel="Нормативы"
                             ></p-button>
@@ -208,9 +205,7 @@
                                 size="small"
                                 icon="fa-solid fa-file-signature"
                                 [outlined]="!method.signActive"
-                                [ngClass]="{
-                    '!bg-sky-500 !text-white': method.signActive
-                }"
+                                [ngClass]="{'!bg-sky-500 !text-white': method.signActive}"
                                 (onClick)="toggleMethod(method.key, 'sign')"
                                 ariaLabel="Заключение"
                             ></p-button>
