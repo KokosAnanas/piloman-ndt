@@ -3,7 +3,7 @@ import { Card } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
-import { NgClass, NgForOf, NgOptimizedImage } from '@angular/common';
+import { NgClass, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 
@@ -18,7 +18,7 @@ interface NdtMethodButtonState {
 
 @Component({
     selector: 'app-weld-params-widget',
-    imports: [Card, FormsModule, InputNumber, Select, NgOptimizedImage, Button, ButtonModule, ButtonGroup, NgClass, NgForOf],
+    imports: [Card, FormsModule, InputNumber, Select, NgOptimizedImage, Button, ButtonModule, ButtonGroup, NgClass, NgForOf, NgIf],
     templateUrl: './weld-params-widget.html',
     styleUrl: './weld-params-widget.scss'
 })

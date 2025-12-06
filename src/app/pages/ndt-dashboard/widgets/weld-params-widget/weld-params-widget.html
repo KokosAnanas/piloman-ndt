@@ -180,9 +180,17 @@
                 <ng-container *ngFor="let method of ndtMethods">
                     <div class="flex items-center justify-between gap-2">
                 <span
-                    class="text-sm font-medium text-slate-700 whitespace-nowrap"
+                    class="text-sm font-medium text-slate-700"
+                    [ngClass]="{
+                        'whitespace-nowrap': method.key !== 'utEdges',
+                        'leading-tight': method.key === 'utEdges'
+                    }"
                 >
-                    {{ method.label }}
+                    <ng-container *ngIf="method.key === 'utEdges'; else defaultLabel">
+                        <span class="block">УЗК</span>
+                        <span class="block">кромок</span>
+                    </ng-container>
+                    <ng-template #defaultLabel>{{ method.label }}</ng-template>
                 </span>
 
                         <p-buttongroup class="flex-shrink-0">
