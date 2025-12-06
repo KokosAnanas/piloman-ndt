@@ -171,43 +171,41 @@
         <!-- 8. Группы кнопок НК -->
         <div
             class="mt-2
-                   sm:col-start-2 sm:row-start-4 sm:row-span-3
-                   xl:col-start-4 xl:row-start-1 xl:row-span-3
-                   flex"
+           sm:col-start-2 sm:row-start-4 sm:row-span-3
+           xl:col-start-4 xl:row-start-1 xl:row-span-3
+           flex"
         >
             <!-- внутренний грид 2x3 для 6 групп -->
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 w-full">
+            <div class="grid grid-cols-2 gap-3 w-full">
                 <ng-container *ngFor="let method of ndtMethods">
                     <div class="flex items-center justify-between gap-2">
-                        <span
-                            class="text-sm font-medium text-slate-700 whitespace-nowrap"
-                        >
-                            {{ method.label }}
-                        </span>
+                <span
+                    class="text-sm font-medium text-slate-700 whitespace-nowrap"
+                >
+                    {{ method.label }}
+                </span>
 
                         <p-buttongroup class="flex-shrink-0">
-                            <!-- Кнопка «книга» -->
                             <p-button
                                 [rounded]="true"
                                 size="small"
                                 icon="fa-solid fa-book"
                                 [outlined]="!method.bookActive"
                                 [ngClass]="{
-                                    '!bg-sky-500 !text-white': method.bookActive
-                                }"
+                            '!bg-sky-500 !text-white': method.bookActive
+                        }"
                                 (onClick)="toggleMethod(method.key, 'book')"
                                 ariaLabel="Нормативы"
                             ></p-button>
 
-                            <!-- Кнопка «подпись / заключение» -->
                             <p-button
                                 [rounded]="true"
                                 size="small"
                                 icon="fa-solid fa-file-signature"
                                 [outlined]="!method.signActive"
                                 [ngClass]="{
-                                    '!bg-sky-500 !text-white': method.signActive
-                                }"
+                            '!bg-sky-500 !text-white': method.signActive
+                        }"
                                 (onClick)="toggleMethod(method.key, 'sign')"
                                 ariaLabel="Заключение"
                             ></p-button>
