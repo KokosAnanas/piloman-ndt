@@ -178,8 +178,7 @@
            flex"
         >
             <!-- внутренний грид 2x3 для 6 групп -->
-            <div class="grid gap-1 w-full
-                        sm:grid-cols-2">
+            <div class="grid grid-cols-2 gap-2 w-full">
                 <ng-container *ngFor="let method of ndtMethods">
                     <div class="flex items-center justify-center gap-1 w-full">
                         <span
@@ -191,21 +190,21 @@
 
                         <p-buttongroup class="flex-shrink-0">
                             <p-button
-                                [rounded]="true"
+
                                 size="small"
                                 icon="fa-solid fa-book"
                                 [outlined]="!method.bookActive"
-                                [ngClass]="{'!bg-sky-500 !text-white': method.bookActive}"
+                                [ngClass]="{'!text-white': method.bookActive}"
                                 (onClick)="toggleMethod(method.key, 'book')"
                                 ariaLabel="Нормативы"
                             ></p-button>
 
                             <p-button
-                                [rounded]="true"
+
                                 size="small"
                                 icon="fa-solid fa-file-signature"
                                 [outlined]="!method.signActive"
-                                [ngClass]="{'!bg-sky-500 !text-white': method.signActive}"
+                                [ngClass]="{' !text-white !rounded-md': method.signActive}"
                                 (onClick)="toggleMethod(method.key, 'sign')"
                                 ariaLabel="Заключение"
                             ></p-button>
