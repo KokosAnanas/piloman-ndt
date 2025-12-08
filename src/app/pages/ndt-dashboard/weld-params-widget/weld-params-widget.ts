@@ -7,49 +7,57 @@ import { NgClass, NgForOf, NgOptimizedImage } from '@angular/common';
 import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 
-type NdtMethodKey = 'vik' | 'ut' | 'rk' | 'pvk' | 'mk' | 'utEdges';
+type NdtMethodKey = 'vt' | 'ut' | 'rt' | 'pt' | 'mt' | 'utEdges';
 
 interface NdtMethodButtonState {
     key: NdtMethodKey;
     label: string;
-    bookActive: boolean; // кнопка с книжкой
-    signActive: boolean; // кнопка с подписью
+    docsActive: boolean; // кнопка с книжкой
+    testReportActive: boolean; // кнопка с подписью
 }
 
 @Component({
     selector: 'app-weld-params-widget',
-    imports: [Card, FormsModule, InputNumber, Select, NgOptimizedImage, Button, ButtonModule, ButtonGroup, NgClass, NgForOf],
+    imports: [Card, FormsModule,
+        InputNumber, Select,
+        NgOptimizedImage, Button,
+        ButtonModule, ButtonGroup,
+        NgClass, NgForOf],
     templateUrl: './weld-params-widget.html',
     styleUrl: './weld-params-widget.scss'
 })
 export class WeldParamsWidget {
     qualityLevels = ['A', 'B', 'C'];
-    weldingProcess = ['Ручная дуговая, полуавтоматическая', 'Автоматическая в защитных газах', 'Автоматическая под флюсом'];
+    weldingProcess = [
+        'Ручная дуговая, полуавтоматическая',
+        'Автоматическая в защитных газах',
+        'Автоматическая под флюсом'
+    ];
     joint = ['Стыковое', 'Угловое и нахлёсточное'];
 
     // состояния всех шести групп
     ndtMethods: NdtMethodButtonState[] = [
-        { key: 'vik', label: 'ВИК', bookActive: false, signActive: false },
-        { key: 'ut', label: 'УЗК', bookActive: false, signActive: false },
-        { key: 'rk', label: 'РК', bookActive: false, signActive: false },
-        { key: 'pvk', label: 'ПВК', bookActive: false, signActive: false },
-        { key: 'mk', label: 'МК', bookActive: false, signActive: false },
-        { key: 'utEdges', label: 'УЗК кромок', bookActive: false, signActive: false }
+        { key: 'vt', label: 'ВИК', docsActive: false, testReportActive: false },
+        { key: 'ut', label: 'УЗК', docsActive: false, testReportActive: false },
+        { key: 'rt', label: 'РК', docsActive: false, testReportActive: false },
+        { key: 'pt', label: 'ПВК', docsActive: false, testReportActive: false },
+        { key: 'mt', label: 'МК', docsActive: false, testReportActive: false },
+        { key: 'utEdges', label: 'УЗК кромок', docsActive: false, testReportActive: false }
     ];
 
     // обработчик нажатия на кнопки
-    toggleMethod(key: NdtMethodKey, button: 'book' | 'sign'): void {
+    toggleMethod(key: NdtMethodKey, button: 'docs' | 'testRepor'): void {
         const method = this.ndtMethods.find((m) => m.key === key);
         if (!method) {
             return;
         }
 
-        if (button === 'book') {
-            method.bookActive = !method.bookActive;
+        if (button === 'docs') {
+            method.docsActive = !method.docsActive;
 
             // TODO: сюда потом добавишь включение/выключение виджета "Нормативы" для метода key
         } else {
-            method.signActive = !method.signActive;
+            method.testReportActive = !method.testReportActive;
 
             // TODO: сюда потом добавишь включение/выключение виджета "Заключение" для метода key
         }

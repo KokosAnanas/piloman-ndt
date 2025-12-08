@@ -161,7 +161,7 @@
         >
             <div class="w-[186px] max-w-full">
                 <img
-                    ngSrc="assets/demo/img/i.jpg"
+                    ngSrc="../../../../assets/demo/img/i.jpg"
                     alt="Профиль сварного шва"
                     width="372"
                     height="120"
@@ -193,9 +193,9 @@
 
                                 size="small"
                                 icon="fa-solid fa-book"
-                                [outlined]="!method.bookActive"
-                                [ngClass]="{'!text-white': method.bookActive}"
-                                (onClick)="toggleMethod(method.key, 'book')"
+                                [outlined]="!method.docsActive"
+                                [ngClass]="{'!text-white': method.docsActive}"
+                                (onClick)="toggleMethod(method.key, 'docs')"
                                 ariaLabel="Нормативы"
                             ></p-button>
 
@@ -203,9 +203,9 @@
 
                                 size="small"
                                 icon="fa-solid fa-file-signature"
-                                [outlined]="!method.signActive"
-                                [ngClass]="{' !text-white !rounded-md': method.signActive}"
-                                (onClick)="toggleMethod(method.key, 'sign')"
+                                [outlined]="!method.testReportActive"
+                                [ngClass]="{' !text-white !rounded-md': method.testReportActive}"
+                                (onClick)="toggleMethod(method.key, 'testRepor')"
                                 ariaLabel="Заключение"
                             ></p-button>
                         </p-buttongroup>

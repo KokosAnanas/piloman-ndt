@@ -3,51 +3,19 @@
 
 <p-fluid>
     <div class="flex items-center justify-between gap-4">
-        <div class="text-3xl mb-2">
+        <div class="text-2xl mb-2">
             Неразрушающий контроль
         </div>
     </div>
 
-    <div class="flex">
-        <div class="flex flex-col gap-0 w-full">
-            <app-weld-params-widget></app-weld-params-widget>
-        </div>
-
+    <div class="flex flex-col gap-0 w-full">
+        <app-weld-params-widget></app-weld-params-widget>
     </div>
+
+    <div class="flex flex-col gap-0 w-2/3 mt-5">
+        <app-ut-norms></app-ut-norms>
+    </div>
+
 </p-fluid>
 
 
-
-<section class="">
-    <div class="flex items-center justify-between gap-4">
-        <div class="text-3xl m-3">
-            !
-        </div>
-    </div>
-
-    <!-- Сетка всего дашборда -->
-    <div class="columns-1
-            sm:columns-2
-            lg:columns-3
-            xl:columns-4
-            2xl:columns-5
-            gap-4">
-
-        <div class="break-inside-avoid-column mb-5">
-            <app-visual-testing-widget></app-visual-testing-widget>
-        </div>
-
-        <div class="break-inside-avoid-column mb-5">
-            <app-ultrasonic-testing-widget></app-ultrasonic-testing-widget>
-        </div>
-
-        <div class="break-inside-avoid-column mb-5">
-            <app-radiographic-testing-widget></app-radiographic-testing-widget>
-        </div>
-
-        <div class="break-inside-avoid-column mb-5">
-            <app-penetrant-testing-widget></app-penetrant-testing-widget>
-        </div>
-
-    </div>
-</section>
