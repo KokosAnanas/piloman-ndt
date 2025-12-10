@@ -1,223 +1,219 @@
 <p-card>
-    <!-- Адаптивная сетка всех полей -->
-    <div
+  <!-- Адаптивная сетка всех полей -->
+  <div
         class="grid gap-x-6 gap-y-1
                grid-cols-1
                sm:grid-cols-2 sm:grid-rows-6
                xl:grid-cols-4 xl:grid-rows-3"
     >
-        <!------------------------ 1. Диаметр ----------------------------------->
-        <div
+    <!------------------------ 1. Диаметр ----------------------------------->
+    <div
             class="flex items-center gap-1
                    sm:col-start-1 sm:row-start-1
                    xl:col-start-1 xl:row-start-1"
+      >
+      <label
+        for="diameter"
+        class="w-20 shrink-0 text-sm font-medium text-slate-700"
         >
-            <label
-                for="diameter"
-                class="w-20 shrink-0 text-sm font-medium text-slate-700"
-            >
-                Диаметр
-            </label>
+        Диаметр
+      </label>
 
-            <p-inputNumber
-                class="flex-1"
-                inputId="diameter"
-                [mode]="'decimal'"
-                inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
-                placeholder="   мм"
-                suffix="   мм"
-                [showButtons]="true"
-                [min]="0"
-                size="small"
-            ></p-inputNumber>
-        </div>
+      <p-inputNumber
+        class="flex-1"
+        inputId="diameter"
+        [mode]="'decimal'"
+        inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+        placeholder="   мм"
+        suffix="   мм"
+        [showButtons]="true"
+        [min]="0"
+        size="small"
+      ></p-inputNumber>
+    </div>
 
-        <!------------------------------- 2. Толщина S1 -------------------------------->
-        <div
+    <!------------------------------- 2. Толщина S1 -------------------------------->
+    <div
             class="flex items-center gap-1
                    sm:col-start-1 sm:row-start-2
                    xl:col-start-1 xl:row-start-2"
+      >
+      <label
+        for="s1"
+        class="w-20 shrink-0 text-sm font-medium text-slate-700"
         >
-            <label
-                for="s1"
-                class="w-20 shrink-0 text-sm font-medium text-slate-700"
-            >
-                Толщина S1
-            </label>
+        Толщина S1
+      </label>
 
-            <p-inputNumber
-                class="flex-1"
-                inputId="s1"
-                [ngModel]="weldParamsStore.s1()"
-                (ngModelChange)="onS1Change($event)"
-                [mode]="'decimal'"
+      <p-inputNumber
+        class="flex-1"
+        inputId="s1"
+        [ngModel]="weldParamsStore.s1()"
+        (ngModelChange)="onS1Change($event)"
+        [mode]="'decimal'"
                 inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
                                 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                placeholder="   мм"
-                suffix="   мм"
-                [showButtons]="true"
-                [min]="0"
-                size="small"
-            ></p-inputNumber>
-        </div>
+        placeholder="   мм"
+        suffix="   мм"
+        [showButtons]="true"
+        [min]="0"
+        size="small"
+      ></p-inputNumber>
+    </div>
 
-        <!------------------ 3. Толщина S2 ------------------------->
-        <div
+    <!------------------ 3. Толщина S2 ------------------------->
+    <div
             class="flex items-center gap-1
                    sm:col-start-1 sm:row-start-3
                    xl:col-start-1 xl:row-start-3"
+      >
+      <label
+        for="s2"
+        class="w-20 shrink-0 text-sm font-medium text-slate-700"
         >
-            <label
-                for="s2"
-                class="w-20 shrink-0 text-sm font-medium text-slate-700"
-            >
-                Толщина S2
-            </label>
+        Толщина S2
+      </label>
 
-            <p-inputNumber
-                class="flex-1"
-                inputId="s2"
-                [ngModel]="weldParamsStore.s2()"
-                (ngModelChange)="onS2Change($event)"
-                [mode]="'decimal'"
-                inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
-                placeholder="   мм"
-                suffix="   мм"
-                [showButtons]="true"
-                [min]="0"
-                size="small"
-            ></p-inputNumber>
-        </div>
+      <p-inputNumber
+        class="flex-1"
+        inputId="s2"
+        [ngModel]="weldParamsStore.s2()"
+        (ngModelChange)="onS2Change($event)"
+        [mode]="'decimal'"
+        inputStyleClass="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+        placeholder="   мм"
+        suffix="   мм"
+        [showButtons]="true"
+        [min]="0"
+        size="small"
+      ></p-inputNumber>
+    </div>
 
-        <!-- 4. Уровень качества -->
-        <div
+    <!-- 4. Уровень качества -->
+    <div
             class="flex items-center gap-1
                    sm:col-start-1 sm:row-start-4
                    xl:col-start-2 xl:row-start-1"
+      >
+      <label
+        for="qualityLevel"
+        class="w-24 shrink-0 text-sm/4 font-medium text-slate-700"
         >
-            <label
-                for="qualityLevel"
-                class="w-24 shrink-0 text-sm/4 font-medium text-slate-700"
-            >
-                Уровень качества
-            </label>
+        Уровень качества
+      </label>
 
-            <p-select
-                class="flex-1 w-full"
-                inputId="qualityLevel"
-                [options]="qualityLevels"
-                placeholder=""
-                size="small"
-            >
-            </p-select>
-        </div>
+      <p-select
+        class="flex-1 w-full"
+        inputId="qualityLevel"
+        [options]="qualityLevels"
+        placeholder=""
+        size="small"
+        >
+      </p-select>
+    </div>
 
-        <!-- 5. Способ сварки -->
-        <div
+    <!-- 5. Способ сварки -->
+    <div
             class="flex items-center gap-1 min-w-0
                    sm:col-start-1 sm:row-start-5
                    xl:col-start-2 xl:row-start-2"
+      >
+      <label
+        for="weldingProcess"
+        class="w-24 shrink-0 text-sm font-medium text-slate-700"
         >
-            <label
-                for="weldingProcess"
-                class="w-24 shrink-0 text-sm font-medium text-slate-700"
-            >
-                Способ сварки
-            </label>
+        Способ сварки
+      </label>
 
-            <p-select
-                class="flex-1 min-w-0 w-full"
-                inputId="weldingProcess"
-                [options]="weldingProcess"
-                placeholder=""
-                size="small"
-            >
-            </p-select>
-        </div>
+      <p-select
+        class="flex-1 min-w-0 w-full"
+        inputId="weldingProcess"
+        [options]="weldingProcess"
+        placeholder=""
+        size="small"
+        >
+      </p-select>
+    </div>
 
-        <!------------------- 6. Тип сварного соединения --------------------->
-        <div
+    <!------------------- 6. Тип сварного соединения --------------------->
+    <div
             class="flex items-center gap-1 min-w-0
                    sm:col-start-1 sm:row-start-6
                    xl:col-start-2 xl:row-start-3"
+      >
+      <label
+        for="joint"
+        class="w-24 shrink-0 text-sm/4 font-medium text-slate-700"
         >
-            <label
-                for="joint"
-                class="w-24 shrink-0 text-sm/4 font-medium text-slate-700"
-            >
-                Тип сварного соединения
-            </label>
+        Тип сварного соединения
+      </label>
 
-            <p-select
-                class="flex-1 min-w-0 w-full"
-                inputId="joint"
-                [options]="joint"
-                placeholder=""
-                size="small"
-            >
-            </p-select>
-        </div>
+      <p-select
+        class="flex-1 min-w-0 w-full"
+        inputId="joint"
+        [options]="joint"
+        placeholder=""
+        size="small"
+        >
+      </p-select>
+    </div>
 
-        <!----------------- 7. Картинка профиля шва --------------------------->
-        <div
+    <!----------------- 7. Картинка профиля шва --------------------------->
+    <div
             class="mt-2 flex items-center justify-center
          sm:col-start-2 sm:row-start-1 sm:row-span-3
          xl:col-start-3 xl:row-start-1 xl:row-span-3"
-        >
-            <div class="w-[186px] max-w-full">
-                <img
-                    ngSrc="../../../../assets/demo/img/i.jpg"
-                    alt="Профиль сварного шва"
-                    width="372"
-                    height="120"
-                    class="block w-full h-auto object-contain"
-                />
-            </div>
+      >
+      <div class="w-[186px] max-w-full">
+        <img
+          ngSrc="../../../../assets/demo/img/i.jpg"
+          alt="Профиль сварного шва"
+          width="372"
+          height="120"
+          class="block w-full h-auto object-contain"
+          />
         </div>
+      </div>
 
-        <!----------------- 8. Группы кнопок НК ------------------------>
-        <div
+      <!----------------- 8. Группы кнопок НК ------------------------>
+      <div
             class="mt-2
            sm:col-start-2 sm:row-start-4 sm:row-span-3
            xl:col-start-4 xl:row-start-1 xl:row-span-3
            flex"
         >
-            <!-- внутренний грид 2x3 для 6 групп -->
-            <div class="grid grid-cols-2 gap-2 w-full">
-                <ng-container *ngFor="let method of ndtMethods">
-                    <div class="flex items-center justify-center gap-1 w-full">
-                        <span
+        <!-- внутренний грид 2x3 для 6 групп -->
+        <div class="grid grid-cols-2 gap-2 w-full">
+          @for (method of ndtMethods; track method) {
+            <div class="flex items-center justify-center gap-1 w-full">
+              <span
                             class="text-sm font-medium text-slate-700 leading-tight text-center
                                    w-16 break-words"
-                        >
-                            {{ method.label }}
-                        </span>
-
-                        <p-buttongroup class="flex-shrink-0">
-                            <p-button
-
-                                size="small"
-                                icon="fa-solid fa-book"
-                                [outlined]="!method.docsActive"
-                                [ngClass]="{'!text-white': method.docsActive}"
-                                (onClick)="toggleMethod(method.key, 'docs')"
-                                ariaLabel="Нормативы"
-                            ></p-button>
-
-                            <p-button
-
-                                size="small"
-                                icon="fa-solid fa-file-signature"
-                                [outlined]="!method.testReportActive"
-                                [ngClass]="{' !text-white !rounded-md': method.testReportActive}"
-                                (onClick)="toggleMethod(method.key, 'testRepor')"
-                                ariaLabel="Заключение"
-                            ></p-button>
-                        </p-buttongroup>
-                    </div>
-                </ng-container>
+                >
+                {{ method.label }}
+              </span>
+              <p-buttongroup class="flex-shrink-0">
+                <p-button
+                  size="small"
+                  icon="fa-solid fa-book"
+                  [outlined]="!method.docsActive"
+                  [ngClass]="{'!text-white': method.docsActive}"
+                  (onClick)="toggleMethod(method.key, 'docs')"
+                  ariaLabel="Нормативы"
+                ></p-button>
+                <p-button
+                  size="small"
+                  icon="fa-solid fa-file-signature"
+                  [outlined]="!method.testReportActive"
+                  [ngClass]="{' !text-white !rounded-md': method.testReportActive}"
+                  (onClick)="toggleMethod(method.key, 'testRepor')"
+                  ariaLabel="Заключение"
+                ></p-button>
+              </p-buttongroup>
             </div>
+          }
         </div>
+      </div>
 
     </div>
-</p-card>
+  </p-card>

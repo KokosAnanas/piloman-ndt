@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Card } from 'primeng/card';
-import { DecimalPipe, NgIf, NgSwitch } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { WeldParamsStore } from '@/store/weld-params.store';
 
 interface NormRow {
@@ -12,7 +12,7 @@ interface NormRow {
 
 @Component({
     selector: 'app-ut-norms',
-    imports: [TableModule, Card, NgIf],
+    imports: [TableModule, Card],
     templateUrl: './ut-norms.html',
     styleUrl: './ut-norms.scss'
 })

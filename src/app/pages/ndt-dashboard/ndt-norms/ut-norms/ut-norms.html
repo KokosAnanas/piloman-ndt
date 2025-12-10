@@ -1,66 +1,65 @@
 <p-card
 
-    class="shadow-sm w-full h-full"
->
-    <div class="flex items-baseline justify-between mb-3">
-        <div class="text-2xl  text-slate-800">
-            Нормы оценки качества сварных соединений трубопроводов при проведении визуального и измерительного контроля (автоматизированного визуального и измерительного контроля)
-        </div>
-
-        <!-- Текущая толщина S -->
-        <div class="text-sm text-slate-500">
-            <span class="font-medium">S</span>
-            =
-            <ng-container *ngIf="weldParamsStore.s() as s; else noS">
-                {{ s }} мм
-            </ng-container>
-            <ng-template #noS>
-                <span class="italic text-slate-400">не задана</span>
-            </ng-template>
-        </div>
+  class="shadow-sm w-full h-full"
+  >
+  <div class="flex items-baseline justify-between mb-3">
+    <div class="text-2xl  text-slate-800">
+      Нормы оценки качества сварных соединений трубопроводов при проведении визуального и измерительного контроля (автоматизированного визуального и измерительного контроля)
     </div>
 
-    <div class="overflow-x-auto">
-        <p-table
-            [value]="rows"
-            showGridlines
-            styleClass="w-full text-sm "
-            [tableStyle]="{ 'min-width': '50rem' }"
-        >
-            <ng-template pTemplate="header">
-                <tr class="bg-slate-50">
-                    <th class="px-3 py-2 font-semibold text-left align-top">
-                        Наименование дефектов
-                    </th>
-                    <th class="px-3 py-2 font-semibold text-left align-top w-32">
-                        Условное<br />
-                        обозначение
-                    </th>
-                    <th class="px-3 py-2 font-semibold text-left align-top">
-                        Допустимые размеры дефектов<br />
-                        сварных соединений
-                    </th>
-                </tr>
-            </ng-template>
-
-            <ng-template pTemplate="body" let-row>
-
-
-
-            </ng-template>
-        </p-table>
+    <!-- Текущая толщина S -->
+    <div class="text-sm text-slate-500">
+      <span class="font-medium">S</span>
+      =
+      @if (weldParamsStore.s(); as s) {
+        {{ s }} мм
+      } @else {
+        <span class="italic text-slate-400">не задана</span>
+      }
     </div>
+  </div>
 
-    <!-- Примечания из документа, кратко -->
-    <div class="mt-3 text-xs text-slate-500 space-y-1">
-        <p>
-            При смещении кромок более 2,0 мм любые подрезы и прочие дефекты
-            на участке максимального смещения не допускаются.
-        </p>
-        <p>
-            Подрезы с глубиной до ~0,05·S, но не более 0,2 мм, как правило,
-            не квалифицируются как нормируемые дефекты и могут не отражаться
-            в заключении.
-        </p>
-    </div>
+  <div class="overflow-x-auto">
+    <p-table
+      [value]="rows"
+      showGridlines
+      styleClass="w-full text-sm "
+      [tableStyle]="{ 'min-width': '50rem' }"
+      >
+      <ng-template pTemplate="header">
+        <tr class="bg-slate-50">
+          <th class="px-3 py-2 font-semibold text-left align-top">
+            Наименование дефектов
+          </th>
+          <th class="px-3 py-2 font-semibold text-left align-top w-32">
+            Условное<br />
+            обозначение
+          </th>
+          <th class="px-3 py-2 font-semibold text-left align-top">
+            Допустимые размеры дефектов<br />
+            сварных соединений
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-row>
+
+
+
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Примечания из документа, кратко -->
+  <div class="mt-3 text-xs text-slate-500 space-y-1">
+    <p>
+      При смещении кромок более 2,0 мм любые подрезы и прочие дефекты
+      на участке максимального смещения не допускаются.
+    </p>
+    <p>
+      Подрезы с глубиной до ~0,05·S, но не более 0,2 мм, как правило,
+      не квалифицируются как нормируемые дефекты и могут не отражаться
+      в заключении.
+    </p>
+  </div>
 </p-card>
