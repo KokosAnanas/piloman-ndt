@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Card } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { InputNumber } from 'primeng/inputnumber';
@@ -6,6 +6,7 @@ import { Select } from 'primeng/select';
 import { NgClass, NgForOf, NgOptimizedImage } from '@angular/common';
 import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
+import { WeldParamsStore } from '@/store/weld-params.store';
 
 type NdtMethodKey = 'vt' | 'ut' | 'rt' | 'pt' | 'mt' | 'utEdges';
 
@@ -27,6 +28,8 @@ interface NdtMethodButtonState {
     styleUrl: './weld-params-widget.scss'
 })
 export class WeldParamsWidget {
+
+    readonly weldParamsStore = inject(WeldParamsStore);
     qualityLevels = ['A', 'B', 'C'];
     weldingProcess = [
         'Ручная дуговая, полуавтоматическая',
@@ -45,6 +48,8 @@ export class WeldParamsWidget {
         { key: 'utEdges', label: 'УЗК кромок', docsActive: false, testReportActive: false }
     ];
 
+//--------------------------------------------------------------------------------------
+
     // обработчик нажатия на кнопки
     toggleMethod(key: NdtMethodKey, button: 'docs' | 'testRepor'): void {
         const method = this.ndtMethods.find((m) => m.key === key);
@@ -61,5 +66,14 @@ export class WeldParamsWidget {
 
             // TODO: сюда потом добавишь включение/выключение виджета "Заключение" для метода key
         }
+    }
+
+    // Эти методы будем вызывать из шаблона - запись в store s1 и s2
+    onS1Change(value: number | null) {
+        this.weldParamsStore.setS1(value ?? null);
+    }
+
+    onS2Change(value: number | null) {
+        this.weldParamsStore.setS2(value ?? null);
     }
 }
