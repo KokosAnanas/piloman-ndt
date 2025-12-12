@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UtNorms } from './ut-norms';
+import { VtNorms } from './vt-norms';
 
-describe('UtNorms', () => {
-  let component: UtNorms;
-  let fixture: ComponentFixture<UtNorms>;
+describe('VtNorms', () => {
+  let component: VtNorms;
+  let fixture: ComponentFixture<VtNorms>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UtNorms]
+      imports: [VtNorms]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UtNorms);
+    fixture = TestBed.createComponent(VtNorms);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
