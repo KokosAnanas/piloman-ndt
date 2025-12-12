@@ -3,16 +3,16 @@
   class="shadow-sm w-full h-full"
   >
   <div class="flex items-baseline justify-between mb-3">
-    <div class="text-2xl  text-slate-800">
-      Нормы оценки качества сварных соединений трубопроводов при проведении визуального и измерительного контроля (автоматизированного визуального и измерительного контроля)
+    <div class="text-xl  text-slate-800  pr-4">
+      Нормы оценки качества сварных соединений трубопроводов при проведении ВИК&nbsp;(АВИК)
     </div>
 
     <!-- Текущая толщина S -->
     <div class="text-sm text-slate-500">
       <span class="font-medium">S</span>
       =
-      @if (thicknessS(); as s) {
-        {{ s }} мм
+        @if (formattedThicknessS(); as s) {
+        {{ s }}&nbsp;мм
       } @else {
         <span class="italic text-slate-400">не задана</span>
       }
@@ -52,10 +52,10 @@
               </td>
               <td class="px-3 py-3 align-top text-slate-800">
                   @switch (row.dynamicKind) {
-                      @case ('fc') {
+                      @case (DynamicKind.Fc) {
                           {{ fcDescriptionText() }}
                       }
-                      @case ('fd') {
+                      @case (DynamicKind.Fd) {
                           {{ fdDescriptionText() }}
                       }
                       @default {
