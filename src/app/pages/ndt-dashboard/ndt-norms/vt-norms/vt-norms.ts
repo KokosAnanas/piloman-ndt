@@ -14,7 +14,6 @@ import { describeFc, describeFd, formatMm } from './vt-norms.utils';
 export class VtNorms {
     private readonly weldParamsStore = inject(WeldParamsStore);
 
-    // сигнал толщины S из общего стора
     readonly thicknessS = this.weldParamsStore.s;
 
     readonly formattedThicknessS = computed(() => {

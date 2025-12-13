@@ -152,6 +152,7 @@
         class="flex-1 min-w-0 w-full"
         inputId="joint"
         [options]="joint"
+        [(ngModel)]="selectedJoint"
         placeholder=""
         size="small"
         >
@@ -166,10 +167,10 @@
       >
       <div class="w-[186px] max-w-full">
         <img
-          ngSrc="../../../../assets/demo/img/Стыковое.png"
+          [ngSrc]="jointImage"
           alt="Профиль сварного шва"
-          width="222"
-          height="154"
+          width="166"
+          height="114"
           class="block w-full h-auto object-contain"
           />
         </div>
