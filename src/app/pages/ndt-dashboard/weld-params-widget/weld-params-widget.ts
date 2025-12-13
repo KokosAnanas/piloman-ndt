@@ -8,17 +8,25 @@ import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { WeldParamsStore } from '@/store/weld-params.store';
 import { NdtMethodButtonState, NdtMethodKey } from './weld-params-widget.types';
+import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
     selector: 'app-weld-params-widget',
-    imports: [Card, FormsModule, InputNumber, Select, NgOptimizedImage, Button, ButtonModule, ButtonGroup, NgClass],
+    imports: [Card, FormsModule, InputNumber, Select, NgOptimizedImage, Button, ButtonModule, ButtonGroup, NgClass, SelectButton],
     templateUrl: './weld-params-widget.html',
     styleUrl: './weld-params-widget.scss'
 })
 export class WeldParamsWidget {
     readonly weldParamsStore = inject(WeldParamsStore);
-    qualityLevels = ['A', 'B', 'C'];
-    weldingProcess = ['Ручная дуговая, полуавтоматическая', 'Автоматическая в защитных газах', 'Автоматическая под флюсом'];
+    qualityLevels = [
+        { label: ' A ', value: 'A' },
+        { label: ' B ', value: 'B' },
+        { label: ' C ', value: 'C' }
+    ];
+    valueQL: string = 'A';
+    weldingProcess = ['Ручная дуговая, полуавтоматическая',
+        'Автоматическая в защитных газах',
+        'Автоматическая под флюсом'];
     joint = ['Стыковое', 'Угловое, нахлёсточное'];
     selectedJoint = this.joint[0];
 

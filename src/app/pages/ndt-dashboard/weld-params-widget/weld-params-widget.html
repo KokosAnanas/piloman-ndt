@@ -97,19 +97,21 @@
       >
       <label
         for="qualityLevel"
-        class="w-24 shrink-0 text-sm/4 font-medium text-slate-700"
+        class="w-24 sm:w-31 xl:w-24 shrink-0 text-sm/4 font-medium text-slate-700"
         >
         Уровень качества
       </label>
 
-      <p-select
-        class="flex-1 w-full"
-        inputId="qualityLevel"
-        [options]="qualityLevels"
-        placeholder=""
-        size="small"
-        >
-      </p-select>
+        <p-selectbutton
+            [options]="qualityLevels"
+            [(ngModel)]="valueQL"
+            optionLabel="label"
+            optionValue="value"
+            class="flex-1 w-full"
+            inputId="qualityLevel"
+            size="small"
+        ></p-selectbutton>
+
     </div>
 
     <!-- 5. Способ сварки -->
@@ -126,7 +128,7 @@
       </label>
 
       <p-select
-        class="flex-1 min-w-0 w-full"
+        class="flex-1 min-w-32 w-full"
         inputId="weldingProcess"
         [options]="weldingProcess"
         placeholder=""
@@ -149,7 +151,7 @@
       </label>
 
       <p-select
-        class="flex-1 min-w-0 w-full"
+        class="flex-1 min-w-32 w-full"
         inputId="joint"
         [options]="joint"
         [(ngModel)]="selectedJoint"
