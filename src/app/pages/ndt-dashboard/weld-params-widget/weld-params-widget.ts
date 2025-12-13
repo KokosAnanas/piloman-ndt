@@ -7,15 +7,7 @@ import { NgClass, NgOptimizedImage } from '@angular/common';
 import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { WeldParamsStore } from '@/store/weld-params.store';
-
-type NdtMethodKey = 'vt' | 'ut' | 'rt' | 'pt' | 'mt' | 'utEdges';
-
-interface NdtMethodButtonState {
-    key: NdtMethodKey;
-    label: string;
-    docsActive: boolean; // кнопка с книжкой
-    testReportActive: boolean; // кнопка с подписью
-}
+import { NdtMethodButtonState, NdtMethodKey } from './weld-params-widget.types';
 
 @Component({
     selector: 'app-weld-params-widget',
@@ -27,7 +19,7 @@ export class WeldParamsWidget {
     readonly weldParamsStore = inject(WeldParamsStore);
     qualityLevels = ['A', 'B', 'C'];
     weldingProcess = ['Ручная дуговая, полуавтоматическая', 'Автоматическая в защитных газах', 'Автоматическая под флюсом'];
-    joint = ['Стыковое', 'Угловое и нахлёсточное'];
+    joint = ['Стыковое', 'Угловое, нахлёсточное'];
     selectedJoint = this.joint[0];
 
     // состояния всех шести групп
@@ -67,9 +59,5 @@ export class WeldParamsWidget {
 
     onS2Change(value: number | null) {
         this.weldParamsStore.setS2(value ?? null);
-    }
-
-    get jointImage(): string {
-        return this.selectedJoint === 'Стыковое' ? 'assets/demo/img/Стыковое.png' : 'assets/demo/img/Стыковое 2.png';
     }
 }

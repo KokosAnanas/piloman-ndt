@@ -160,20 +160,40 @@
     </div>
 
     <!----------------- 7. Картинка профиля шва --------------------------->
-    <div
-            class="mt-2 flex items-center justify-center
+      <div
+          class="mt-2 flex items-center justify-center
          sm:col-start-2 sm:row-start-1 sm:row-span-3
          xl:col-start-3 xl:row-start-1 xl:row-span-3"
       >
-      <div class="w-[186px] max-w-full">
-        <img
-          [ngSrc]="jointImage"
-          alt="Профиль сварного шва"
-          width="166"
-          height="114"
-          class="block w-full h-auto max-h-[95px] object-contain"
-          />
-        </div>
+          <!-- Вариант 1: Стыковое -->
+          @if (selectedJoint === 'Стыковое') {
+              <img
+                  ngSrc="assets/demo/img/Стыковое.png"
+                  priority
+                  alt="Профиль сварного шва (стыковое)"
+                  width="222"
+                  height="152"
+                  class="
+                        h-auto max-h-[95px]
+                        w-auto max-w-full
+                        object-contain
+                      "
+              />
+          } @else {
+              <img
+                  ngSrc="assets/demo/img/Стыковое 2.png"
+                  priority
+                  alt="Профиль сварного шва (угловое и нахлёсточное)"
+                  width="200"
+                  height="128"
+                  class="
+                        h-auto max-h-[95px]
+                        w-auto max-w-full
+                        object-contain
+                      "
+              />
+          }
+
       </div>
 
       <!----------------- 8. Группы кнопок НК ------------------------>
@@ -184,7 +204,7 @@
            flex"
         >
         <!-- внутренний грид 2x3 для 6 групп -->
-        <div class="grid grid-cols-2 gap-2 w-full">
+        <div class="grid grid-cols-2 gap-1 w-full">
           @for (method of ndtMethods; track method) {
             <div class="flex items-center justify-center gap-1 w-full">
               <span
