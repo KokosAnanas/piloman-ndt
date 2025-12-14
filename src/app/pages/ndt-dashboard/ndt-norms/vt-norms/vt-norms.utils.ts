@@ -5,10 +5,21 @@ const numberFormatter = new Intl.NumberFormat('ru-RU', {
 
 export const formatMm = (value: number): string => numberFormatter.format(value);
 
-export const fcBaseText = 'h ≤ 0,1S, но не более 0,5 мм;<br />' +
-                                'l ≤ 150 мм.';
+export const fcBaseText = `
+                            h ≤ 0,1S, но не более 0,5 мм;<br />
+                            <i>l</i> ≤ 150 мм.;
+`;
 
-export const fdBaseText = 'Для труб: 2 ≤ S ≤ 5 мм — не более 0,4·S; ' + '5 < S ≤ 10 мм — не более 2,0 мм; ' + '10 < S ≤ 15 мм — не более 0,2·S; ' + 'S > 15 мм — не более 3,0 мм.';
+export const fdBaseText = `
+                            для труб c 2 ≤ S ≤ 5 мм:<br />
+                            не более 0,4S;<br />
+                            для труб c 5 < S ≤ 10 мм:<br />
+                            не более 2,0 мм;<br />
+                            для труб c 10 < S ≤ 15 мм:<br />
+                            не более 0,2S;<br />
+                            для труб c 15 < S:<br />
+                            не более 3,0 мм.
+`;
 
 export const fcLimit = (s: number | null): number | null => {
     if (s == null) {
@@ -48,7 +59,7 @@ export const describeFc = (s: number | null): string => {
         return fcBaseText;
     }
 
-    return `h ≤ ${formatMm(limit)} мм;<br />l ≤ 150 мм.`;
+    return `h ≤ ${formatMm(limit)} мм;<br /><i>l</i> ≤ 150 мм.`;
 };
 
 export const describeFd = (s: number | null): string => {
@@ -57,5 +68,5 @@ export const describeFd = (s: number | null): string => {
         return fdBaseText;
     }
 
-    return `Смещение кромок не более ${formatMm(limit)} мм.`;
+    return `Не более ${formatMm(limit)} мм.`;
 };

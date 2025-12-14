@@ -35,9 +35,8 @@
             Условное<br />
             обозначение
           </th>
-          <th class="px-3 py-2 font-semibold text-left align-top">
-            Допустимые размеры дефектов<br />
-            сварных соединений
+          <th class="px-300 py-2 font-semibold text-center align-top min-w-48">
+            Допустимые размеры дефектов<br />сварных соединений
           </th>
         </tr>
       </ng-template>
@@ -53,10 +52,12 @@
               <td class="px-3 py-3 align-top text-slate-800">
                   @switch (row.dynamicKind) {
                       @case (DynamicKind.Fc) {
-                          <span [innerHTML]="fcDescriptionText()"></span>
+                          <div class="text-center"
+                               [innerHTML]="fcDescriptionText()"></div>
                       }
                       @case (DynamicKind.Fd) {
-                          {{ fdDescriptionText() }}
+                          <div class="text-center"
+                               [innerHTML]="fdDescriptionText()"></div>
                       }
                       @default {
                           {{ row.description }}
