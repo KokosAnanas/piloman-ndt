@@ -54,16 +54,15 @@ When adding new global state:
 
 Routes are defined in `src/app.routes.ts` with nested structure:
 
-- Root path (`/`) renders `AppLayout` component with nested child routes
-- Main pages are direct children (Dashboard, NDT Dashboard, Documentation)
-- Feature modules use lazy loading: `loadChildren: () => import(...)`
+- Root path (`/`) renders `AppLayout` component with NDT Dashboard as default page
 - Uses path alias `@/*` → `src/app/*` for cleaner imports
+- Authentication routes use lazy loading: `loadChildren: () => import(...)`
 
 Key routes:
-- `/` - Main dashboard
-- `/ndt-dashboard` - Primary NDT inspection interface
-- `/uikit` - UI components showcase (lazy loaded)
-- `/auth` - Authentication pages (lazy loaded)
+- `/` - NDT Dashboard (primary application interface)
+- `/ndt-dashboard` - NDT Dashboard (same as root)
+- `/auth` - Authentication pages (lazy loaded: login, error, access denied)
+- `/notfound` - 404 error page
 
 ### Component Structure
 
