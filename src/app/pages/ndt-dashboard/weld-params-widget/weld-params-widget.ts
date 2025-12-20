@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Card } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { InputNumber } from 'primeng/inputnumber';
@@ -16,7 +16,9 @@ import { SelectButton } from 'primeng/selectbutton';
     templateUrl: './weld-params-widget.html',
     styleUrl: './weld-params-widget.scss'
 })
-export class WeldParamsWidget {
+export class WeldParamsWidget implements OnChanges {
+    @Input() vtNormsOpen = false;
+    @Output() vtNormsOpenChange = new EventEmitter<boolean>();
     readonly weldParamsStore = inject(WeldParamsStore);
     qualityLevels = [
         { label: ' A ', value: 'A' },
@@ -42,6 +44,15 @@ export class WeldParamsWidget {
 
     //--------------------------------------------------------------------------------------
 
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['vtNormsOpen']) {
+            const vtMethod = this.ndtMethods.find(m => m.label === 'ВИК');
+            if (vtMethod) {
+                vtMethod.docsActive = this.vtNormsOpen;
+            }
+        }
+    }
+
     // обработчик нажатия на кнопки
     toggleMethod(key: NdtMethodKey, button: 'docs' | 'testRepor'): void {
         const method = this.ndtMethods.find((m) => m.key === key);
@@ -52,7 +63,10 @@ export class WeldParamsWidget {
         if (button === 'docs') {
             method.docsActive = !method.docsActive;
 
-            // TODO: сюда потом добавишь включение/выключение виджета "Нормативы" для метода key
+            // Специальная обработка для ВИК
+            if (key === 'vt') {
+                this.vtNormsOpenChange.emit(method.docsActive);
+            }
         } else {
             method.testReportActive = !method.testReportActive;
 

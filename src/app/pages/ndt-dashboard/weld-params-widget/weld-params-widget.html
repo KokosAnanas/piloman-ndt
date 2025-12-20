@@ -220,7 +220,7 @@
                   size="small"
                   icon="fa-solid fa-book"
                   [outlined]="!method.docsActive"
-                  [ngClass]="{'!text-white': method.docsActive}"
+                  [ngClass]="method.docsActive ? ' !text-white' : ''"
                   (onClick)="toggleMethod(method.key, 'docs')"
                   ariaLabel="Нормативы"
                 ></p-button>

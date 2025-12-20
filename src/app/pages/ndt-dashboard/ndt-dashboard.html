@@ -9,12 +9,17 @@
     </div>
 
     <div class="flex flex-col gap-0 w-full">
-        <app-weld-params-widget></app-weld-params-widget>
+        <app-weld-params-widget
+            [vtNormsOpen]="showVtNorms()"
+            (vtNormsOpenChange)="setVtNormsOpen($event)">
+        </app-weld-params-widget>
     </div>
 
-    <div class="flex flex-col gap-0 w-full xl:w-2/3 mt-5">
-        <app-vt-norms></app-vt-norms>
-    </div>
+    @if (showVtNorms()) {
+        <div class="flex flex-col gap-0 w-full xl:w-2/3 mt-5">
+            <app-vt-norms (close)="closeVtNorms()"></app-vt-norms>
+        </div>
+    }
 
 </p-fluid>
 

@@ -1,17 +1,19 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, Output, EventEmitter } from '@angular/core';
 import { Card } from 'primeng/card';
 import { TableModule } from 'primeng/table';
+import { Button } from 'primeng/button';
 import { WeldParamsStore } from '@/store/weld-params.store';
 import { DynamicKind, NormRow } from './vt-norms.types';
 import { describeFc, describeFd, formatMm } from './vt-norms.utils';
 
 @Component({
     selector: 'app-vt-norms',
-    imports: [TableModule, Card],
+    imports: [TableModule, Card, Button],
     templateUrl: './vt-norms.html',
     styleUrl: './vt-norms.scss'
 })
 export class VtNorms {
+    @Output() close = new EventEmitter<void>();
     private readonly weldParamsStore = inject(WeldParamsStore);
 
     readonly thicknessS = this.weldParamsStore.s;
