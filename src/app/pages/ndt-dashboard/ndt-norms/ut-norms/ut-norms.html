@@ -1,0 +1,22 @@
+<p-card>
+    <ng-template #header>
+        <div class="flex items-center justify-between px-4 pt-4">
+            <div class="text-lg font-semibold">Нормативы УЗК</div>
+            <p-button
+                icon="pi pi-times"
+                [text]="true"
+                [rounded]="true"
+                severity="secondary"
+                (onClick)="close.emit()"
+                ariaLabel="Закрыть"
+                class="flex-shrink-0"
+            ></p-button>
+        </div>
+    </ng-template>
+
+    <div class="p-4">
+        <p class="text-center text-gray-500">
+            Нормативы УЗК в разработке...
+        </p>
+    </div>
+</p-card>

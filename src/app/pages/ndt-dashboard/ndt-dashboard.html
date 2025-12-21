@@ -1,6 +1,4 @@
 
-
-
 <p-fluid>
     <div class="flex items-center justify-between gap-4">
         <div class="text-2xl mb-2">
@@ -10,17 +8,22 @@
 
     <div class="flex flex-col gap-0 w-full">
         <app-weld-params-widget
-            [vtNormsOpen]="showVtNorms()"
-            (vtNormsOpenChange)="setVtNormsOpen($event)">
+            [activeNorms]="activeNorms()"
+            (docsToggle)="onDocsToggle($event)">
         </app-weld-params-widget>
     </div>
 
-    @if (showVtNorms()) {
+    @if (activeNorms() === 'vt') {
         <div class="flex flex-col gap-0 w-full xl:w-2/3 mt-5">
-            <app-vt-norms (close)="closeVtNorms()"></app-vt-norms>
+            <app-vt-norms (close)="closeNorms()"></app-vt-norms>
         </div>
     }
 
+    @if (activeNorms() === 'ut') {
+        <div class="flex flex-col gap-0 w-full xl:w-2/3 mt-5">
+            <app-ut-norms (close)="closeNorms()"></app-ut-norms>
+        </div>
+    }
 </p-fluid>
 
 

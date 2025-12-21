@@ -1,6 +1,35 @@
 ---
 name: tailwind-explainer
-description: Use this agent when the user asks about the meaning, purpose, or effect of a specific Tailwind CSS class or utility. Trigger this agent when:\n\n- User asks "What does [tailwind-class] do?"\n- User requests explanation of Tailwind syntax like "flex", "grid-cols-3", "hover:bg-blue-500"\n- User wants to understand spacing utilities (p-4, m-2, gap-x-3)\n- User inquires about responsive prefixes (sm:, md:, lg:)\n- User asks about pseudo-class variants (hover:, focus:, active:)\n- User needs clarification on Tailwind v4 specific features\n\n<example>\nContext: User is working with Tailwind CSS in the Angular project and encounters an unfamiliar class.\nuser: "What does the class 'border-surface' do in Tailwind?"\nassistant: "Let me use the tailwind-explainer agent to explain this Tailwind class."\n<uses Task tool to launch tailwind-explainer agent>\n</example>\n\n<example>\nContext: User is styling a component and wants to understand a responsive utility.\nuser: "Can you explain what 'lg:grid-cols-3' means?"\nassistant: "I'll use the tailwind-explainer agent to break down this responsive Tailwind class."\n<uses Task tool to launch tailwind-explainer agent>\n</example>\n\n<example>\nContext: User is reviewing code and sees an unfamiliar hover state class.\nuser: "I see 'hover:shadow-xl' in this code, what does it do?"\nassistant: "Let me launch the tailwind-explainer agent to explain this hover variant."\n<uses Task tool to launch tailwind-explainer agent>\n</example>
+description: |
+  Use this agent when the user asks about the meaning, purpose, or effect of a specific Tailwind CSS class or utility. Trigger this agent when:
+
+  - User asks "What does [tailwind-class] do?"
+  - User requests explanation of Tailwind syntax like "flex", "grid-cols-3", "hover:bg-blue-500"
+  - User wants to understand spacing utilities (p-4, m-2, gap-x-3)
+  - User inquires about responsive prefixes (sm:, md:, lg:)
+  - User asks about pseudo-class variants (hover:, focus:, active:)
+  - User needs clarification on Tailwind v4 specific features
+
+  <example>
+  Context: User is working with Tailwind CSS in the Angular project and encounters an unfamiliar class.
+  user: "What does the class 'border-surface' do in Tailwind?"
+  assistant: "Let me use the tailwind-explainer agent to explain this Tailwind class."
+  <uses Task tool to launch tailwind-explainer agent>
+  </example>
+
+  <example>
+  Context: User is styling a component and wants to understand a responsive utility.
+  user: "Can you explain what 'lg:grid-cols-3' means?"
+  assistant: "I'll use the tailwind-explainer agent to break down this responsive Tailwind class."
+  <uses Task tool to launch tailwind-explainer agent>
+  </example>
+
+  <example>
+  Context: User is reviewing code and sees an unfamiliar hover state class.
+  user: "I see 'hover:shadow-xl' in this code, what does it do?"
+  assistant: "Let me launch the tailwind-explainer agent to explain this hover variant."
+  <uses Task tool to launch tailwind-explainer agent>
+  </example>
 model: sonnet
 color: cyan
 ---

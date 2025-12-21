@@ -17,8 +17,8 @@ import { SelectButton } from 'primeng/selectbutton';
     styleUrl: './weld-params-widget.scss'
 })
 export class WeldParamsWidget implements OnChanges {
-    @Input() vtNormsOpen = false;
-    @Output() vtNormsOpenChange = new EventEmitter<boolean>();
+    @Input() activeNorms: 'none' | 'vt' | 'ut' = 'none';
+    @Output() docsToggle = new EventEmitter<'vt' | 'ut'>();
     readonly weldParamsStore = inject(WeldParamsStore);
     qualityLevels = [
         { label: ' A ', value: 'A' },
@@ -45,31 +45,35 @@ export class WeldParamsWidget implements OnChanges {
     //--------------------------------------------------------------------------------------
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes['vtNormsOpen']) {
-            const vtMethod = this.ndtMethods.find(m => m.label === 'ВИК');
-            if (vtMethod) {
-                vtMethod.docsActive = this.vtNormsOpen;
-            }
+        if (changes['activeNorms']) {
+            // Синхронизировать docsActive для ВИК и УЗК с activeNorms
+            this.ndtMethods.forEach(method => {
+                if (method.key === 'vt') {
+                    method.docsActive = this.activeNorms === 'vt';
+                } else if (method.key === 'ut') {
+                    method.docsActive = this.activeNorms === 'ut';
+                }
+            });
         }
     }
 
     // обработчик нажатия на кнопки
-    toggleMethod(key: NdtMethodKey, button: 'docs' | 'testRepor'): void {
+    toggleMethod(key: NdtMethodKey, button: 'docs' | 'testReport'): void {
         const method = this.ndtMethods.find((m) => m.key === key);
         if (!method) {
             return;
         }
 
         if (button === 'docs') {
-            method.docsActive = !method.docsActive;
-
-            // Специальная обработка для ВИК
-            if (key === 'vt') {
-                this.vtNormsOpenChange.emit(method.docsActive);
+            // Для ВИК и УЗК — эмитим событие наверх (родитель управляет состоянием)
+            if (key === 'vt' || key === 'ut') {
+                this.docsToggle.emit(key);
+                return;
             }
+            // Для остальных методов — локальный toggle
+            method.docsActive = !method.docsActive;
         } else {
             method.testReportActive = !method.testReportActive;
-
             // TODO: сюда потом добавишь включение/выключение виджета "Заключение" для метода key
         }
     }
