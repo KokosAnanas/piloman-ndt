@@ -16,22 +16,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Common Commands
 
-### Development
 ```bash
-npm start                        # Start dev server (default port 4200)
-npm run watch                    # Build in watch mode
-npm run format                   # Format code with Prettier
-```
-
-### Build & Test
-```bash
-npm run build                    # Production build → dist/sakai-ng/
-npm test                         # Run Karma/Jasmine tests
-```
-
-### Code Quality
-```bash
-npm run format                   # Format all .ts, .html, .js files
+npm start          # Start dev server (default port 4200)
+npm run build      # Production build → dist/sakai-ng/
+npm test           # Run Karma/Jasmine tests
+npm run format     # Format all .ts, .html, .js files with Prettier
+npm run watch      # Build in watch mode
 ```
 
 ## Architecture
@@ -68,15 +58,16 @@ Key routes:
 
 **Standalone Components** (modern Angular approach):
 - All components use `imports: [...]` instead of NgModule declarations
-- Component selector prefix: `app-`
+- Component selector prefix: `p-` (configured in eslint.config.js)
+- Component class suffix: none (no `Component` suffix, e.g., `NdtDashboard` not `NdtDashboardComponent`)
 - Inline style language: SCSS
 
 **NDT Dashboard** (`src/app/pages/ndt-dashboard/`):
 - Primary feature module for NDT inspection workflow
-- Composed of widgets:
+- Composed of:
   - `weld-params-widget/` - Input for weld thickness (S1, S2), joint types, quality levels
-  - `ndt-norms/` - Inspection standards tables
-    - `vt-norms/` - Visual Testing standards with dynamic content
+  - `ndt-norms/` - Inspection standards tables for each NDT method (vt, ut, rt, pt, mt, ut-edges)
+  - `ndt-test-reports/` - Test report forms for each NDT method
 
 When creating new components:
 - Use standalone component pattern
@@ -111,21 +102,26 @@ Styling approach:
 
 ## Key Domain Concepts
 
+### Reference Materials
+The `.claude/materialsForTheApp/` directory contains the official standards that define inspection requirements:
+- **СТО Газпром 15-1.3-004-2023** - Primary NDT standard with Appendix G forms
+- **СТО Газпром 15-2.3-005-2023** - Additional welding standards
+
 ### NDT Testing Methods
 The application supports multiple NDT methods:
-- **VT** - Visual Testing
-- **UT** - Ultrasonic Testing
-- **RT** - Radiographic Testing
-- **PT** - Penetrant Testing
-- **MT** - Magnetic Testing
-- **UT-Edges** - Ultrasonic edge inspection
+- **VT** - Visual Testing (Визуальный контроль)
+- **UT** - Ultrasonic Testing (Ультразвуковой контроль)
+- **RT** - Radiographic Testing (Радиографический контроль)
+- **PT** - Penetrant Testing (Капиллярный контроль)
+- **MT** - Magnetic Testing (Магнитопорошковый контроль)
+- **UT-Edges** - Ultrasonic edge inspection (УЗК кромок)
 
 ### Quality Levels
-Inspection quality standards: A, B, C (highest to lowest)
+Inspection quality standards: A, B, C (A is highest)
 
 ### Weld Parameters
-- **S1** - Thickness of first welded element
-- **S2** - Thickness of second welded element
+- **S1** - Thickness of first welded element (толщина первого элемента)
+- **S2** - Thickness of second welded element (толщина второго элемента)
 - **S (min)** - Minimum of S1 and S2, used for standard lookups
 
 ## Project Naming Note
@@ -140,20 +136,19 @@ Configured for Vercel deployment (`vercel.json`):
 
 ## AI Assistant Guidelines
 
-* Разработка ведётся на ОС Windows
-* Ты должен общаться на русском языке
+- Разработка ведётся на ОС Windows
+- Общение ведётся на русском языке
+- Ассистент должен разбираться в Неразрушающем контроле сварных соединений
 
-Мой проект (Angular 21 + NestJS + MongoDB + развёртывание в Yandex Cloud). Интерактивное приложение на основе материалов из директории .claude/materialsForTheApp/
-Так же ты хорошо разбираешься в Неразрушающем контроле сварных соединений.
+### Project Goals
+Разработка веб-приложения piloman.ru для специалистов НК:
+- Быстрое оформление производственных документов и заключений (по формам Приложения Г СТО Газпром 15-1.3-004-2023)
+- Ведение реестров, протоколов и отчётности
+- Удобная повседневная работа дефектоскопистов и инженеров
 
-Задача: разработать веб-приложение piloman.ru для специалистов неразрушающего контроля (НК) для:
-- быстрого оформления производственных документов и заключений (по формам Приложения Г СТО Газпром 15-1.3-004-2023);
-- ведения реестров, протоколов и отчётности;
-- удобной повседневной работы дефектоскопистов и инженеров.
-
-Технологический стек:
-- Frontend: Angular 21, Standalone-компоненты, Vite builder, TypeScript, PrimeNG 20, TailwindCSS, PrimeIcons.
-- Backend: NestJS (REST).
-- База данных: MongoDB + Mongoose (хранение всех документов и связанной информации).
-- Инфраструктура и деплой: Docker, Docker Compose, Nginx, Yandex Cloud (VM, сети, security groups, домен piloman.ru, SSL).
-- Прочее: JWT-аутентификация, ролевые права, платёжный шлюз для приёма оплат в России за платную версию приложения.
+### Full Stack (planned)
+- **Frontend**: Angular 21, Standalone-компоненты, TypeScript, PrimeNG 21, TailwindCSS
+- **Backend**: NestJS (REST)
+- **Database**: MongoDB + Mongoose
+- **Infrastructure**: Docker, Docker Compose, Nginx, Yandex Cloud (VM, домен piloman.ru, SSL)
+- **Auth**: JWT-аутентификация, ролевые права
