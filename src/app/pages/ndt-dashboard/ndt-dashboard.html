@@ -1,4 +1,3 @@
-
 <p-fluid>
     <div class="flex items-center justify-between gap-4">
         <div class="text-2xl mb-2">
@@ -8,20 +7,60 @@
 
     <div class="flex flex-col gap-0 w-full">
         <app-weld-params-widget
-            [activeNorms]="activeNorms()"
-            (docsToggle)="onDocsToggle($event)">
+            [activeWidget]="activeWidget()"
+            (widgetToggle)="onWidgetToggle($event)">
         </app-weld-params-widget>
     </div>
 
-    @if (activeNorms() === 'vt') {
+    <!-- Norms widgets -->
+    @if (activeWidgetType() === 'norms') {
         <div class="flex flex-col gap-0 w-full xl:w-2/3 mt-5">
-            <app-vt-norms (close)="closeNorms()"></app-vt-norms>
+            @switch (activeWidgetMethod()) {
+                @case ('vt') {
+                    <app-vt-norms (close)="closeWidget()"></app-vt-norms>
+                }
+                @case ('ut') {
+                    <app-ut-norms (close)="closeWidget()"></app-ut-norms>
+                }
+                @case ('rt') {
+                    <app-rt-norms (close)="closeWidget()"></app-rt-norms>
+                }
+                @case ('pt') {
+                    <app-pt-norms (close)="closeWidget()"></app-pt-norms>
+                }
+                @case ('mt') {
+                    <app-mt-norms (close)="closeWidget()"></app-mt-norms>
+                }
+                @case ('utEdges') {
+                    <app-ut-edges-norms (close)="closeWidget()"></app-ut-edges-norms>
+                }
+            }
         </div>
     }
 
-    @if (activeNorms() === 'ut') {
+    <!-- Test reports widgets -->
+    @if (activeWidgetType() === 'testReport') {
         <div class="flex flex-col gap-0 w-full xl:w-2/3 mt-5">
-            <app-ut-norms (close)="closeNorms()"></app-ut-norms>
+            @switch (activeWidgetMethod()) {
+                @case ('vt') {
+                    <app-vt-test-reports (close)="closeWidget()"></app-vt-test-reports>
+                }
+                @case ('ut') {
+                    <app-ut-test-reports (close)="closeWidget()"></app-ut-test-reports>
+                }
+                @case ('rt') {
+                    <app-rt-test-reports (close)="closeWidget()"></app-rt-test-reports>
+                }
+                @case ('pt') {
+                    <app-pt-test-reports (close)="closeWidget()"></app-pt-test-reports>
+                }
+                @case ('mt') {
+                    <app-mt-test-reports (close)="closeWidget()"></app-mt-test-reports>
+                }
+                @case ('utEdges') {
+                    <app-ut-edges-test-report (close)="closeWidget()"></app-ut-edges-test-report>
+                }
+            }
         </div>
     }
 </p-fluid>

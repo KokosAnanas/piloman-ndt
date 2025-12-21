@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { Card } from 'primeng/card';
+import { Button } from 'primeng/button';
 
 @Component({
-  selector: 'app-rt-test-reports',
-  imports: [],
-  templateUrl: './rt-test-reports.html',
-  styleUrl: './rt-test-reports.scss',
+    selector: 'app-rt-test-reports',
+    imports: [Card, Button],
+    templateUrl: './rt-test-reports.html',
+    styleUrl: './rt-test-reports.scss'
 })
 export class RtTestReports {
-
+    @Output() close = new EventEmitter<void>();
 }

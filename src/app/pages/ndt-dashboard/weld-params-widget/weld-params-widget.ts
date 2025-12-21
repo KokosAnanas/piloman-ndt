@@ -7,7 +7,7 @@ import { NgClass, NgOptimizedImage } from '@angular/common';
 import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { WeldParamsStore } from '@/store/weld-params.store';
-import { NdtMethodButtonState, NdtMethodKey } from './weld-params-widget.types';
+import { ActiveWidgetState, NdtMethodButtonState, NdtMethodKey, WidgetType } from './weld-params-widget.types';
 import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
@@ -17,8 +17,8 @@ import { SelectButton } from 'primeng/selectbutton';
     styleUrl: './weld-params-widget.scss'
 })
 export class WeldParamsWidget implements OnChanges {
-    @Input() activeNorms: 'none' | 'vt' | 'ut' = 'none';
-    @Output() docsToggle = new EventEmitter<'vt' | 'ut'>();
+    @Input() activeWidget: ActiveWidgetState = { type: 'none' };
+    @Output() widgetToggle = new EventEmitter<{ method: NdtMethodKey; widgetType: WidgetType }>();
     readonly weldParamsStore = inject(WeldParamsStore);
     qualityLevels = [
         { label: ' A ', value: 'A' },
@@ -45,13 +45,18 @@ export class WeldParamsWidget implements OnChanges {
     //--------------------------------------------------------------------------------------
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes['activeNorms']) {
-            // Синхронизировать docsActive для ВИК и УЗК с activeNorms
+        if (changes['activeWidget']) {
+            // Синхронизировать состояние всех кнопок с activeWidget
             this.ndtMethods.forEach(method => {
-                if (method.key === 'vt') {
-                    method.docsActive = this.activeNorms === 'vt';
-                } else if (method.key === 'ut') {
-                    method.docsActive = this.activeNorms === 'ut';
+                if (this.activeWidget.type === 'none') {
+                    method.docsActive = false;
+                    method.testReportActive = false;
+                } else if (this.activeWidget.type === 'norms') {
+                    method.docsActive = this.activeWidget.method === method.key;
+                    method.testReportActive = false;
+                } else if (this.activeWidget.type === 'testReport') {
+                    method.docsActive = false;
+                    method.testReportActive = this.activeWidget.method === method.key;
                 }
             });
         }
@@ -59,23 +64,8 @@ export class WeldParamsWidget implements OnChanges {
 
     // обработчик нажатия на кнопки
     toggleMethod(key: NdtMethodKey, button: 'docs' | 'testReport'): void {
-        const method = this.ndtMethods.find((m) => m.key === key);
-        if (!method) {
-            return;
-        }
-
-        if (button === 'docs') {
-            // Для ВИК и УЗК — эмитим событие наверх (родитель управляет состоянием)
-            if (key === 'vt' || key === 'ut') {
-                this.docsToggle.emit(key);
-                return;
-            }
-            // Для остальных методов — локальный toggle
-            method.docsActive = !method.docsActive;
-        } else {
-            method.testReportActive = !method.testReportActive;
-            // TODO: сюда потом добавишь включение/выключение виджета "Заключение" для метода key
-        }
+        const widgetType: WidgetType = button === 'docs' ? 'norms' : 'testReport';
+        this.widgetToggle.emit({ method: key, widgetType });
     }
 
     // Эти методы будем вызывать из шаблона - запись в store s1 и s2
