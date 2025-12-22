@@ -102,8 +102,8 @@ Styling approach:
 
 ## Key Domain Concepts
 
-### Reference Materials
-The `.claude/materialsForTheApp/` directory contains the official standards that define inspection requirements:
+### Reference basic documentations
+The `.claude/basicDocumentationForTheApp/` directory contains the official standards that define inspection requirements:
 - **СТО Газпром 15-1.3-004-2023** - Primary NDT standard with Appendix G forms
 - **СТО Газпром 15-2.3-005-2023** - Additional welding standards
 
