@@ -1,5 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 
+export type QualityLevel = 'A' | 'B' | 'C';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -7,10 +9,12 @@ export class WeldParamsStore {
     // Внутренние сигналы для S1 и S2
     private readonly _s1 = signal<number | null>(null);
     private readonly _s2 = signal<number | null>(null);
+    private readonly _qualityLevel = signal<QualityLevel>('A');
 
     // Публичные геттеры (чтобы снаружи не перетирать напрямую)
     readonly s1 = computed(() => this._s1());
     readonly s2 = computed(() => this._s2());
+    readonly qualityLevel = computed(() => this._qualityLevel());
 
     // Общая толщина S = min(S1, S2)
     readonly s = computed<number | null>(() => {
@@ -29,5 +33,9 @@ export class WeldParamsStore {
 
     setS2(value: number | null) {
         this._s2.set(value);
+    }
+
+    setQualityLevel(value: QualityLevel) {
+        this._qualityLevel.set(value);
     }
 }

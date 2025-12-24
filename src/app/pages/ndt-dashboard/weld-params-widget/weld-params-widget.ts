@@ -6,7 +6,7 @@ import { Select } from 'primeng/select';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
-import { WeldParamsStore } from '@/store/weld-params.store';
+import { QualityLevel, WeldParamsStore } from '@/store/weld-params.store';
 import { ActiveWidgetState, NdtMethodButtonState, NdtMethodKey, WidgetType } from './weld-params-widget.types';
 import { SelectButton } from 'primeng/selectbutton';
 
@@ -25,7 +25,6 @@ export class WeldParamsWidget implements OnChanges {
         { label: ' B ', value: 'B' },
         { label: ' C ', value: 'C' }
     ];
-    valueQL: string = 'A';
     weldingProcess = ['Ручная дуговая, полуавтоматическая',
         'Автоматическая в защитных газах',
         'Автоматическая под флюсом'];
@@ -75,5 +74,9 @@ export class WeldParamsWidget implements OnChanges {
 
     onS2Change(value: number | null) {
         this.weldParamsStore.setS2(value ?? null);
+    }
+
+    onQualityLevelChange(value: QualityLevel) {
+        this.weldParamsStore.setQualityLevel(value);
     }
 }

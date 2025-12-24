@@ -104,7 +104,8 @@
 
         <p-selectbutton
             [options]="qualityLevels"
-            [(ngModel)]="valueQL"
+            [ngModel]="weldParamsStore.qualityLevel()"
+            (ngModelChange)="onQualityLevelChange($event)"
             optionLabel="label"
             optionValue="value"
             class="flex-1 w-full"

@@ -1,7 +1,9 @@
 <p-card>
     <ng-template #header>
         <div class="flex items-center justify-between px-4 pt-4">
-            <div class="text-lg font-semibold">Нормативы УЗК</div>
+            <div class="text-lg font-semibold">
+                Таблица 6.6 — Допустимая длина дефектов (УЗК)
+            </div>
             <p-button
                 icon="pi pi-times"
                 [text]="true"
@@ -14,9 +16,50 @@
         </div>
     </ng-template>
 
-    <div class="p-4">
-        <p class="text-center text-gray-500">
-            Нормативы УЗК в разработке...
+    <div class="px-4 pb-4">
+        <p-table
+            [value]="tableData()"
+            [tableStyle]="{ 'min-width': '40rem' }"
+            class="p-datatable-sm mb-4 text-sm"
+        >
+            <ng-template #header>
+                <tr>
+                    <th class="!text-center">Наименование дефекта</th>
+                    <th class="!text-center" style="width: 100px">Условное обозначение</th>
+                    <th class="!text-center">Вид дефекта</th>
+                    <th class="!text-center" style="width: 180px">
+                        Допустимая длина дефектов, мм<br>
+                        <span class=" font-normal">{{ qualityLevelHeader() }}</span>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-row>
+                <tr>
+                    <td>{{ row.name }}</td>
+                    <td class="!text-center font-mono">{{ row.code }}</td>
+                    <td>{{ row.type }}</td>
+                    <td class="!text-center whitespace-pre-line">{{ row.allowableLength }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p class="mt-4 text-sm text-gray-600">
+            * Дефект лежит на разделке кромок, если расстояние от дефекта до плоскости разделки не превышает 1 мм,
+            в остальных случаях считать, что дефект находится в металле шва или основном металле трубы.
         </p>
+
+        @if (s() !== null) {
+            <p class="mt-2 text-sm text-blue-600">
+                <strong>S = {{ s() }} мм</strong> (минимальная толщина из S1 и S2)
+            </p>
+        } @else {
+            <p class="mt-2 text-sm text-gray-600">
+                <strong>Примечание:</strong> При оценке допустимости дефекта из двух значений параметра,
+                соединённых союзом «и», выбирают наименьшее.
+            </p>
+            <p class="mt-2 text-sm text-orange-600">
+                Введите значения толщины S1 и/или S2 для расчёта допустимой длины дефектов.
+            </p>
+        }
     </div>
 </p-card>
