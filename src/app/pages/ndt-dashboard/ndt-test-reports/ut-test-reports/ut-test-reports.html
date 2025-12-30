@@ -1,7 +1,7 @@
 <p-card>
     <ng-template #header>
         <div class="flex items-center justify-between px-4 pt-4">
-            <div class="text-lg font-semibold">Заключение УЗК</div>
+            <div class="text-lg font-semibold">Заключение УЗК (РУЗК) — Приложение Г.3</div>
             <p-button
                 icon="pi pi-times"
                 [text]="true"
@@ -14,9 +14,313 @@
         </div>
     </ng-template>
 
-    <div class="p-4">
-        <p class="text-center text-gray-500">
-            Заключение УЗК в разработке...
-        </p>
-    </div>
+    <form [formGroup]="form" class="p-4">
+        <!-- ========== ВЕРХНИЕ ДВА БЛОКА ========== -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+
+            <!-- ЛЕВЫЙ БЛОК: Лаборатория / средства контроля -->
+            <div class="border border-gray-300 p-3 rounded">
+                <div class="space-y-2">
+                    <!-- Наименование лаборатории НК -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Наименование лаборатории НК: <span class="text-red-500">*</span></label>
+                        <input pInputText formControlName="labName" class="w-full text-sm"
+                               [class.ng-invalid]="hasError('labName')" />
+                        @if (hasError('labName')) {
+                            <small class="text-red-500 text-xs">Обязательное поле</small>
+                        }
+                    </div>
+
+                    <!-- Свидетельство об аттестации № -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Свидетельство об аттестации №:</label>
+                        <input pInputText formControlName="attestationNumber" class="w-full text-sm" />
+                    </div>
+
+                    <!-- Нормативный документ -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Нормативный документ:</label>
+                        <input pInputText formControlName="normativeDocument" class="w-full text-sm" />
+                    </div>
+
+                    <!-- Номер ОТК НК -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Номер ОТК НК:</label>
+                        <input pInputText formControlName="otkNumber" class="w-full text-sm" />
+                    </div>
+
+                    <!-- Средства контроля -->
+                    <div class="border-t border-gray-200 pt-2 mt-2">
+                        <label class="text-xs text-gray-600 font-semibold">Средства контроля:</label>
+
+                        <div class="flex flex-col mt-1">
+                            <label class="text-xs text-gray-500 mb-1">Дефектоскоп (тип/марка, заводской/серийный номер):</label>
+                            <input pInputText formControlName="defectoscope" class="w-full text-sm" />
+                        </div>
+
+                        <div class="flex flex-col mt-1">
+                            <label class="text-xs text-gray-500 mb-1">Типы, номер преобразователей/акустических блоков:</label>
+                            <input pInputText formControlName="transducers" class="w-full text-sm" />
+                        </div>
+
+                        <div class="flex flex-col mt-1">
+                            <label class="text-xs text-gray-500 mb-1">Номер НО (калибровочного блока), форма и размер искусственного отражателя:</label>
+                            <input pInputText formControlName="calibrationBlock" class="w-full text-sm" />
+                        </div>
+                    </div>
+
+                    <!-- Заключение по ВИК -->
+                    <div class="flex items-center gap-2 mt-2">
+                        <label class="text-xs text-gray-600 whitespace-nowrap">Заключение по ВИК №</label>
+                        <input pInputText formControlName="vikConclusionNumber" class="flex-1 text-sm" />
+                        <label class="text-xs text-gray-600">от</label>
+                        <p-datepicker formControlName="vikConclusionDate" dateFormat="dd.mm.yy"
+                                      [showIcon]="true" inputStyleClass="text-sm w-32" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРАВЫЙ БЛОК: Объект / трасса / организации -->
+            <div class="border border-gray-300 p-3 rounded">
+                <div class="space-y-2">
+                    <!-- Наименование объекта -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Наименование объекта: <span class="text-red-500">*</span></label>
+                        <input pInputText formControlName="objectName" class="w-full text-sm"
+                               [class.ng-invalid]="hasError('objectName')" />
+                        @if (hasError('objectName')) {
+                            <small class="text-red-500 text-xs">Обязательное поле</small>
+                        }
+                    </div>
+
+                    <!-- Уровень качества -->
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-gray-600 whitespace-nowrap">Уровень качества: <span class="text-red-500">*</span></label>
+                        <p-selectbutton [options]="qualityLevelOptions" formControlName="qualityLevel"
+                                        optionLabel="label" optionValue="value" size="small" />
+                    </div>
+
+                    <!-- Объём контроля -->
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-gray-600 whitespace-nowrap">Объём контроля:</label>
+                        <p-inputNumber formControlName="controlVolume" suffix=" %" [min]="0" [max]="100"
+                                       inputStyleClass="text-sm w-20" />
+                    </div>
+
+                    <!-- Название трассы -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Название трассы:</label>
+                        <input pInputText formControlName="routeName" class="w-full text-sm" />
+                    </div>
+
+                    <!-- Участок трубопровода -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Участок трубопровода, километраж:</label>
+                        <input pInputText formControlName="pipelineSection" class="w-full text-sm" />
+                    </div>
+
+                    <!-- Организация подрядчика -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Наименование организации подрядчика:</label>
+                        <input pInputText formControlName="contractor" class="w-full text-sm" />
+                    </div>
+
+                    <!-- Организация заказчика -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Наименование организации заказчика:</label>
+                        <input pInputText formControlName="customer" class="w-full text-sm" />
+                    </div>
+
+                    <!-- Шифр бригады -->
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-600 mb-1">Шифр бригады или клеймо сварщика:</label>
+                        <input pInputText formControlName="welderCode" class="w-full text-sm" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== ЗАГОЛОВОК ЗАКЛЮЧЕНИЯ ========== -->
+        <div class="text-center mb-6 border-t border-b border-gray-300 py-4">
+            <div class="flex items-center justify-center gap-2 flex-wrap">
+                <span class="font-bold text-lg">ЗАКЛЮЧЕНИЕ №</span>
+                <input pInputText formControlName="conclusionNumber" class="w-24 text-center font-bold"
+                       [class.ng-invalid]="hasError('conclusionNumber')" />
+                <span class="font-bold text-lg">от</span>
+                <p-datepicker formControlName="conclusionDate" dateFormat="dd.mm.yy"
+                              [showIcon]="true" inputStyleClass="text-center w-32" />
+            </div>
+            <div class="text-sm text-gray-600 mt-2">
+                по результатам контроля качества сварных соединений/основного металла ультразвуковым методом (РУЗК)
+            </div>
+            @if (hasError('conclusionNumber') || hasError('conclusionDate')) {
+                <small class="text-red-500 text-xs">Номер и дата заключения обязательны</small>
+            }
+        </div>
+
+        <!-- ========== ТАБЛИЦА РЕЗУЛЬТАТЫ КОНТРОЛЯ ========== -->
+        <div class="mb-6">
+            <h3 class="text-center font-bold mb-3">РЕЗУЛЬТАТЫ КОНТРОЛЯ</h3>
+
+            <div class="overflow-x-auto">
+                <p-table [value]="defects.controls" [tableStyle]="{ 'min-width': '80rem' }"
+                         styleClass="p-datatable-sm p-datatable-gridlines">
+                    <ng-template #header>
+                        <tr>
+                            <th class="text-center text-xs" style="width: 100px">Номер сварного соединения по журналу сварки</th>
+                            <th class="text-center text-xs" style="width: 100px">Диаметр и толщина стенки трубы, мм</th>
+                            <th class="text-center text-xs" style="width: 60px">Номер дефекта</th>
+                            <th class="text-center text-xs" style="width: 80px">Эквив. площадь дефекта S<sub>деф</sub>, мм²</th>
+                            <th class="text-center text-xs" style="width: 70px">Поправки чувств., дБ</th>
+                            <th class="text-center text-xs" style="width: 70px">Протяж. L, мм</th>
+                            <th class="text-center text-xs" style="width: 60px">Высота h, мм</th>
+                            <th class="text-center text-xs" style="width: 70px">Глубина Y, мм</th>
+                            <th class="text-center text-xs" style="width: 70px">Сумм. протяж. (ΣД), мм</th>
+                            <th class="text-center text-xs" style="width: 80px">Координаты по периметру, мм</th>
+                            <th class="text-center text-xs" style="width: 90px">Заключение</th>
+                            <th class="text-center text-xs" style="width: 100px">Примечания</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-row let-i="rowIndex">
+                        <tr [formGroup]="row">
+                            <td>
+                                <input pInputText formControlName="weldNumber" class="w-full text-sm text-center" />
+                            </td>
+                            <td>
+                                <div class="flex items-center gap-1">
+                                    <p-inputNumber formControlName="diameter" inputStyleClass="w-12 text-sm text-center" [min]="0" />
+                                    <span>×</span>
+                                    <p-inputNumber formControlName="thickness" inputStyleClass="w-12 text-sm text-center" [min]="0" />
+                                </div>
+                            </td>
+                            <td>
+                                <p-inputNumber formControlName="defectNumber" inputStyleClass="w-full text-sm text-center" [min]="0" />
+                            </td>
+                            <td>
+                                <p-inputNumber formControlName="defectArea" inputStyleClass="w-full text-sm text-center" [min]="0" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="2" />
+                            </td>
+                            <td>
+                                <p-inputNumber formControlName="sensitivityCorrection" inputStyleClass="w-full text-sm text-center" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="1" />
+                            </td>
+                            <td>
+                                <p-inputNumber formControlName="length" inputStyleClass="w-full text-sm text-center" [min]="0" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="1" />
+                            </td>
+                            <td>
+                                <p-inputNumber formControlName="height" inputStyleClass="w-full text-sm text-center" [min]="0" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="1" />
+                            </td>
+                            <td>
+                                <p-inputNumber formControlName="depth" inputStyleClass="w-full text-sm text-center" [min]="0" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="1" />
+                            </td>
+                            <td>
+                                <p-inputNumber formControlName="totalLength" inputStyleClass="w-full text-sm text-center" [min]="0" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="1" />
+                            </td>
+                            <td>
+                                <p-inputNumber formControlName="perimeterCoord" inputStyleClass="w-full text-sm text-center" [min]="0" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="1" />
+                            </td>
+                            <td>
+                                <p-select formControlName="conclusion" [options]="conclusionOptions"
+                                          optionLabel="label" optionValue="value"
+                                          styleClass="w-full text-sm" />
+                            </td>
+                            <td>
+                                <input pInputText formControlName="notes" class="w-full text-sm" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <!-- Кнопки управления строками -->
+            <div class="flex gap-2 mt-3">
+                <p-button label="Добавить строку" icon="pi pi-plus" severity="secondary" size="small"
+                          (onClick)="addDefectRow()" />
+                <p-button label="Удалить строку" icon="pi pi-minus" severity="danger" size="small"
+                          [disabled]="defects.length <= 1" (onClick)="removeDefectRow()" />
+            </div>
+        </div>
+
+        <!-- ========== ИТОГОВОЕ ЗАКЛЮЧЕНИЕ О КАЧЕСТВЕ ========== -->
+        <div class="border border-gray-300 p-3 rounded mb-6">
+            <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-sm font-semibold">Заключение о качестве сварного соединения №</span>
+                <span class="font-bold underline px-2">{{ firstWeldNumber }}</span>
+                <span class="text-sm">—</span>
+                <p-select formControlName="finalConclusion" [options]="conclusionOptions"
+                          optionLabel="label" optionValue="value" styleClass="text-sm" />
+                <span class="text-xs text-gray-500">(годен, ремонт, вырезать)</span>
+            </div>
+        </div>
+
+        <!-- ========== ПОДПИСИ ========== -->
+        <div class="space-y-4 mb-6">
+            <!-- Контроль провел -->
+            <div formGroupName="inspector" class="border border-gray-300 p-3 rounded">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3 items-center">
+                    <span class="text-sm font-semibold">Контроль провел</span>
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-500">ФИО</label>
+                        <input pInputText formControlName="fullName" class="w-full text-sm" />
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                        <label class="text-xs text-gray-500">Уровень квалификации, удостоверение №</label>
+                        <input pInputText formControlName="qualification" class="w-full text-sm" />
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex flex-col flex-1">
+                            <label class="text-xs text-gray-500">Подпись</label>
+                            <div class="border-b border-gray-400 h-6"></div>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-xs text-gray-500">Дата</label>
+                            <p-datepicker formControlName="date" dateFormat="dd.mm.yy"
+                                          [showIcon]="true" inputStyleClass="text-sm w-28" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Заключение выдал -->
+            <div formGroupName="approver" class="border border-gray-300 p-3 rounded">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3 items-center">
+                    <span class="text-sm font-semibold">Заключение выдал</span>
+                    <div class="flex flex-col">
+                        <label class="text-xs text-gray-500">ФИО</label>
+                        <input pInputText formControlName="fullName" class="w-full text-sm" />
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                        <label class="text-xs text-gray-500">Уровень квалификации, удостоверение №</label>
+                        <input pInputText formControlName="qualification" class="w-full text-sm" />
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex flex-col flex-1">
+                            <label class="text-xs text-gray-500">Подпись</label>
+                            <div class="border-b border-gray-400 h-6"></div>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-xs text-gray-500">Дата</label>
+                            <p-datepicker formControlName="date" dateFormat="dd.mm.yy"
+                                          [showIcon]="true" inputStyleClass="text-sm w-28" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== КНОПКИ ДЕЙСТВИЙ ========== -->
+        <div class="flex flex-wrap gap-3 justify-center border-t border-gray-300 pt-4">
+            <p-button label="Распечатать заключение" icon="pi pi-print" severity="secondary"
+                      (onClick)="onPrint()" />
+            <p-button label="Сохранить в Базе данных" icon="pi pi-save" severity="primary"
+                      (onClick)="onSave()" />
+            <p-button label="JSON Preview" icon="pi pi-code" severity="info" [outlined]="true"
+                      (onClick)="toggleJsonPreview()" />
+        </div>
+
+        <!-- JSON Preview для отладки -->
+        @if (showJsonPreview) {
+            <div class="mt-4 p-3 bg-gray-100 rounded border border-gray-300 overflow-x-auto">
+                <pre class="text-xs">{{ form.value | json }}</pre>
+            </div>
+        }
+    </form>
 </p-card>
