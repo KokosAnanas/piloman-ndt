@@ -11,10 +11,11 @@ import { TableModule } from 'primeng/table';
 import { SelectButton } from 'primeng/selectbutton';
 import { WeldParamsStore } from '@/store/weld-params.store';
 import { UtConclusionForm, DefectRowForm, ConclusionStatus } from './ut-test-reports.types';
+import { FloatLabel } from 'primeng/floatlabel';
 
 @Component({
     selector: 'app-ut-test-reports',
-    imports: [CommonModule, ReactiveFormsModule, Card, Button, InputText, InputNumber, DatePicker, Select, TableModule, SelectButton],
+    imports: [CommonModule, ReactiveFormsModule, Card, Button, InputText, InputNumber, DatePicker, Select, TableModule, SelectButton, FloatLabel],
     templateUrl: './ut-test-reports.html',
     styleUrl: './ut-test-reports.scss'
 })
