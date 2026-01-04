@@ -22,6 +22,13 @@ npm run build      # Production build → dist/sakai-ng/
 npm test           # Run Karma/Jasmine tests
 npm run format     # Format all .ts, .html, .js files with Prettier
 npm run watch      # Build in watch mode
+npx eslint .       # Lint all files
+
+# Run single test file
+npm test -- --include=**/weld-params.store.spec.ts
+
+# Type check without emitting
+npx tsc --noEmit
 ```
 
 ## Architecture
@@ -67,7 +74,23 @@ Key routes:
 - Composed of:
   - `weld-params-widget/` - Input for weld thickness (S1, S2), joint types, quality levels
   - `ndt-norms/` - Inspection standards tables for each NDT method (vt, ut, rt, pt, mt, ut-edges)
-  - `ndt-test-reports/` - Test report forms for each NDT method
+  - `ndt-test-reports/` - Test report forms for each NDT method:
+    - `vt-test-reports/` - ВИК (визуальный контроль)
+    - `ut-test-reports/` - УЗК (ультразвуковой контроль)
+    - `rt-test-reports/` - РК (радиографический контроль)
+    - `pt-test-reports/` - ПВК (капиллярный контроль)
+    - `mt-test-reports/` - МПК (магнитопорошковый контроль)
+    - `ut-edges-test-report/` - УЗК кромок
+
+**Type Definitions:**
+- Domain types are co-located with components in `*.types.ts` files
+- Examples: `weld-params-widget.types.ts`, `ut-norms.types.ts`, `ut-test-reports.types.ts`
+
+**DOCX Generation Pattern** (for test reports):
+- Services for DOCX generation are co-located with components: `*-docx.service.ts`
+- Uses `docx` npm package for client-side document generation
+- Uses `file-saver` for downloading blobs in browser
+- Example: `ut-test-reports-docx.service.ts` generates УЗК conclusion forms
 
 When creating new components:
 - Use standalone component pattern
@@ -102,10 +125,12 @@ Styling approach:
 
 ## Key Domain Concepts
 
-### Reference basic documentations
-The `.claude/basicDocumentationForTheApp/` directory contains the official standards that define inspection requirements:
-- **СТО Газпром 15-1.3-004-2023** - Primary NDT standard with Appendix G forms
-- **СТО Газпром 15-2.3-005-2023** - Additional welding standards
+### Reference Documentation
+The `.claude/basicDocumentationForTheApp/` directory contains:
+- **СТО Газпром 15-1.3-004-2023** (PDF) - Primary NDT standard with Appendix G forms
+- **СТО Газпром 15-2.3-005-2023** (PDF) - Additional welding standards
+- **Blank forms** (PDF/DOCX) - Official templates for test conclusions (e.g., `УЗК-бланк заключения.pdf`)
+- **Prompt files** (`promt_*.md`) - Technical specifications for implementing features
 
 ### NDT Testing Methods
 The application supports multiple NDT methods:
@@ -137,6 +162,9 @@ Configured for Vercel deployment (`vercel.json`):
 ## AI Assistant Guidelines
 
 - Разработка ведётся на ОС Windows
+- Ты мой личный ментор и учитель 
+- При каждом ответе давай ссылки на официальную документацию (официальные источники) из интернета
+- Пиши больше пояснительные комментарии в коде и ссылки на официальную документацию (официальные источники) в комментариях
 - Общение ведётся на русском языке
 - Ассистент должен разбираться в Неразрушающем контроле сварных соединений
 

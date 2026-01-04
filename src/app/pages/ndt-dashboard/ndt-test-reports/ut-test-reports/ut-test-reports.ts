@@ -12,6 +12,7 @@ import { SelectButton } from 'primeng/selectbutton';
 import { WeldParamsStore } from '@/store/weld-params.store';
 import { UtConclusionForm, DefectRowForm, ConclusionStatus } from './ut-test-reports.types';
 import { FloatLabel } from 'primeng/floatlabel';
+import { UtTestReportsDocxService, UtConclusionFormValue } from './ut-test-reports-docx.service';
 
 @Component({
     selector: 'app-ut-test-reports',
@@ -24,6 +25,7 @@ export class UtTestReports implements OnInit {
 
     private readonly fb = inject(FormBuilder);
     private readonly weldParamsStore = inject(WeldParamsStore);
+    private readonly docxService = inject(UtTestReportsDocxService);
 
     form!: FormGroup<UtConclusionForm>;
 
@@ -135,6 +137,25 @@ export class UtTestReports implements OnInit {
     removeDefectRow() {
         if (this.defects.length > 1) {
             this.defects.removeAt(this.defects.length - 1);
+        }
+    }
+
+    async onDownloadDocx() {
+        if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            return;
+        }
+
+        try {
+            const formValue = this.form.value as UtConclusionFormValue;
+            const blob = await this.docxService.buildDocx(formValue);
+
+            // Динамический импорт file-saver
+            const { saveAs } = await import('file-saver');
+            saveAs(blob, 'Уведомление.docx');
+        } catch (error) {
+            console.error('Ошибка генерации DOCX:', error);
+            alert('Ошибка при создании документа. См. консоль.');
         }
     }
 

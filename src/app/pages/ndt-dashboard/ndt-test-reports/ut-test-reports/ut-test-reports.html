@@ -388,8 +388,7 @@
                 label="Скачать DOCX"
                 icon="pi pi-file-word"
                 severity="secondary"
-                class=""
-                [disabled]="form.invalid">
+                (onClick)="onDownloadDocx()">
             </p-button>
             <p-button label="Распечатать заключение" icon="pi pi-print" severity="secondary"
                       (onClick)="onPrint()" />
