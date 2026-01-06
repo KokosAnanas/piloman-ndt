@@ -117,7 +117,8 @@ export class UtTestReportsDocxService {
             VerticalAlign,
             PageOrientation,
             convertMillimetersToTwip,
-            Header
+            Header,
+            HeightRule
         } = await import('docx');
 
         const FONT = 'Times New Roman';
@@ -170,6 +171,12 @@ export class UtTestReportsDocxService {
                 rowSpan: options.rowSpan,
                 verticalAlign: VerticalAlign.CENTER,
                 borders,
+                margins: {
+                    top: convertMillimetersToTwip(0.2),
+                    bottom: convertMillimetersToTwip(0.2),
+                    left: convertMillimetersToTwip(1.5),
+                    right: convertMillimetersToTwip(1.5)
+                },
                 children: [
                     new Paragraph({
                         alignment: options.alignment || AlignmentType.LEFT,
@@ -189,7 +196,7 @@ export class UtTestReportsDocxService {
 
         // Создание ячейки с несколькими строками текста
         const createMultilineCell = (
-            lines: { text: string; bold?: boolean; italic?: boolean }[],
+            lines: { text: string; bold?: boolean; italic?: boolean; subscript?: boolean; noBreakBefore?: boolean }[],
             options: {
                 width?: number;
                 alignment?: (typeof AlignmentType)[keyof typeof AlignmentType];
@@ -210,7 +217,8 @@ export class UtTestReportsDocxService {
 
             const textChildren: InstanceType<typeof TextRun>[] = [];
             lines.forEach((line, index) => {
-                if (index > 0) {
+                // Добавляем перенос строки, только если это не первый элемент и noBreakBefore не установлен
+                if (index > 0 && !line.noBreakBefore) {
                     textChildren.push(new TextRun({ break: 1 }));
                 }
                 textChildren.push(
@@ -219,7 +227,8 @@ export class UtTestReportsDocxService {
                         font: FONT,
                         size: FONT_SIZE,
                         bold: line.bold,
-                        italics: line.italic
+                        italics: line.italic,
+                        subScript: line.subscript // Подстрочный индекс (маленькие буквы ниже опорной линии)
                     })
                 );
             });
@@ -230,6 +239,12 @@ export class UtTestReportsDocxService {
                 rowSpan: options.rowSpan,
                 verticalAlign: VerticalAlign.CENTER,
                 borders,
+                margins: {
+                    top: convertMillimetersToTwip(0.2),
+                    bottom: convertMillimetersToTwip(0.2),
+                    left: convertMillimetersToTwip(1.5),
+                    right: convertMillimetersToTwip(1.5)
+                },
                 children: [
                     new Paragraph({
                         alignment: options.alignment || AlignmentType.LEFT,
@@ -256,44 +271,33 @@ export class UtTestReportsDocxService {
 
         // ========== Верхние два блока (две таблицы в одной строке) ==========
         // Левая таблица - Лаборатория
-        const leftTableWidth = 7200; // ~127mm
-
+        // Ширина 100% от контейнера для растягивания до границы левого поля
         const leftTable = new Table({
-            width: { size: leftTableWidth, type: WidthType.DXA },
+            width: { size: 100, type: WidthType.PERCENTAGE },
             rows: [
                 new TableRow({
-                    children: [
-                        createCell('Наименование лаборатории НК:', { width: 3200 }),
-                        createCell(v(formValue.labName, 'Наименование лаборатории НК'), { width: 4000, italic: true })
-                    ]
+                    children: [createCell(`Наименование лаборатории НК: ${v(formValue.labName, '')}`, { width: 7200, colSpan: 2 })]
+                }),
+                new TableRow({
+                    children: [createCell(`Свидетельство об аттестации № ${v(formValue.attestationNumber, '')}`, { width: 7200, colSpan: 2 })]
+                }),
+                new TableRow({
+                    children: [createCell(`Нормативный документ: ${v(formValue.normativeDocument, 'СТО Газпром 15-1.3-004-2023; СТО Газпром 15-2.3–005–2023')}`, { width: 7200, colSpan: 2 })]
+                }),
+                new TableRow({
+                    children: [createCell(`Номер ОТК НК: ${v(formValue.otkNumber, '')}`, { width: 7200, colSpan: 2 })]
                 }),
                 new TableRow({
                     children: [
-                        createCell('Свидетельство об аттестации №', { width: 3200 }),
-                        createCell(v(formValue.attestationNumber, 'Свидетельство об аттестации'), { width: 4000, italic: true })
-                    ]
-                }),
-                new TableRow({
-                    children: [
-                        createCell('Нормативный документ:', { width: 3200 }),
-                        createCell(v(formValue.normativeDocument, 'СТО Газпром 15-1.3-004-2023; СТО Газпром 15-2.3–005–2023'), { width: 4000 })
-                    ]
-                }),
-                new TableRow({
-                    children: [
-                        createCell('Номер ОТК НК:', { width: 3200 }),
-                        createCell(v(formValue.otkNumber, 'Номер ОТК НК'), { width: 4000, italic: true })
-                    ]
-                }),
-                new TableRow({
-                    children: [
-                        createCell('Средства контроля', { width: 3200, rowSpan: 3 }),
+                        createCell('Средства контроля', { width: 1000, rowSpan: 3 }),
                         createMultilineCell(
                             [
-                                { text: 'Дефектоскоп (тип/марка, заводской/серийный номер);', italic: true },
-                                { text: v(formValue.defectoscope, ''), italic: true }
+                                {
+                                    text: v(formValue.defectoscope, 'Дефектоскоп (тип/марка, заводской/серийный номер);'),
+                                    italic: !formValue.defectoscope?.trim() // курсив только для fallback
+                                }
                             ],
-                            { width: 4000 }
+                            { width: 6200 }
                         )
                     ]
                 }),
@@ -301,10 +305,12 @@ export class UtTestReportsDocxService {
                     children: [
                         createMultilineCell(
                             [
-                                { text: 'Типы, номер применяемых преобразователей или акустических блоков;', italic: true },
-                                { text: v(formValue.transducers, ''), italic: true }
+                                {
+                                    text: v(formValue.transducers, 'Типы, номер применяемых преобразователей или акустических блоков;'),
+                                    italic: !formValue.transducers?.trim()
+                                }
                             ],
-                            { width: 4000 }
+                            { width: 6200 }
                         )
                     ]
                 }),
@@ -312,10 +318,12 @@ export class UtTestReportsDocxService {
                     children: [
                         createMultilineCell(
                             [
-                                { text: 'Номер НО (калибровочного блока), форма и размер искусственного отражателя', italic: true },
-                                { text: v(formValue.calibrationBlock, ''), italic: true }
+                                {
+                                    text: v(formValue.calibrationBlock, 'Номер НО (калибровочного блока), форма и размер искусственного отражателя'),
+                                    italic: !formValue.calibrationBlock?.trim()
+                                }
                             ],
-                            { width: 4000 }
+                            { width: 6200 }
                         )
                     ]
                 }),
@@ -331,57 +339,48 @@ export class UtTestReportsDocxService {
         });
 
         // Правая таблица - Объект
-        const rightTableWidth = 7200;
-
+        // Ширина 100% от контейнера для растягивания до границы правого поля
         const rightTable = new Table({
-            width: { size: rightTableWidth, type: WidthType.DXA },
+            width: { size: 100, type: WidthType.PERCENTAGE },
             rows: [
                 new TableRow({
                     children: [
-                        createCell('Наименование объекта:', { width: 3200 }),
-                        createCell(v(formValue.objectName, 'Наименование объекта'), { width: 4000, italic: true })
+                        createCell(`Наименование объекта: ${v(formValue.objectName, '')}`, { width: 7200 })
                     ]
                 }),
                 new TableRow({
                     children: [
-                        createCell('Уровень качества:', { width: 3200 }),
-                        createCell(v(formValue.qualityLevel, 'A или B или C'), { width: 4000, italic: true })
+                        createCell(`Уровень качества: ${v(formValue.qualityLevel, '')}`, { width: 7200 })
                     ]
                 }),
                 new TableRow({
                     children: [
-                        createCell('Объем контроля:', { width: 3200 }),
-                        createCell(`${num(formValue.controlVolume, '____')}%`, { width: 4000 })
+                        createCell(`Объем контроля: ${num(formValue.controlVolume, '100')} %`, { width: 7200 })
                     ]
                 }),
                 new TableRow({
                     children: [
-                        createCell('Название трассы:', { width: 3200 }),
-                        createCell(v(formValue.routeName, 'Название трассы'), { width: 4000, italic: true })
+                        createCell(`Название трассы: ${v(formValue.routeName, '')}`, { width: 7200 })
                     ]
                 }),
                 new TableRow({
                     children: [
-                        createCell('Участок трубопровода, километраж:', { width: 3200 }),
-                        createCell(v(formValue.pipelineSection, 'Участок трубопровода, километраж'), { width: 4000, italic: true })
+                        createCell(`Участок трубопровода, километраж: ${v(formValue.pipelineSection, '')}`, { width: 7200 })
                     ]
                 }),
                 new TableRow({
                     children: [
-                        createCell('Наименование организации подрядчика:', { width: 3200 }),
-                        createCell(v(formValue.contractor, 'Организация подрядчика'), { width: 4000, italic: true })
+                        createCell(`Наименование организации подрядчика: ${v(formValue.contractor, '')}`, { width: 7200 })
                     ]
                 }),
                 new TableRow({
                     children: [
-                        createCell('Наименование организации заказчика:', { width: 3200 }),
-                        createCell(v(formValue.customer, 'Организация заказчика'), { width: 4000, italic: true })
+                        createCell(`Наименование организации заказчика: ${v(formValue.customer, '')}`, { width: 7200 })
                     ]
                 }),
                 new TableRow({
                     children: [
-                        createCell('Шифр бригады или клеймо сварщика:', { width: 3200 }),
-                        createCell(v(formValue.welderCode, 'Шифр бригады или клеймо сварщика'), { width: 4000, italic: true })
+                        createCell(`Шифр бригады или клеймо сварщика: ${v(formValue.welderCode, '')}`, { width: 7200 })
                     ]
                 })
             ]
@@ -403,6 +402,9 @@ export class UtTestReportsDocxService {
                     children: [
                         new TableCell({
                             width: { size: 50, type: WidthType.PERCENTAGE },
+                            margins: {
+                                right: convertMillimetersToTwip(10) // Промежуток 10 мм справа margin-right левой ячейки
+                            },
                             borders: {
                                 top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
                                 bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
@@ -427,30 +429,29 @@ export class UtTestReportsDocxService {
         });
 
         // ========== Заголовок ЗАКЛЮЧЕНИЕ ==========
-        const conclusionTitle = new Paragraph({
+        const utReportTitle = new Paragraph({
             alignment: AlignmentType.CENTER,
-            spacing: { before: 400, after: 100 },
+            spacing: { before: 200, after: 50 },
             children: [
-                new TextRun({ text: 'ЗАКЛЮЧЕНИЕ № ', font: FONT, size: 28, bold: true }),
+                new TextRun({ text: 'ЗАКЛЮЧЕНИЕ № ', font: FONT, size: 24 }),
                 new TextRun({
                     text: v(formValue.conclusionNumber, '___________'),
                     font: FONT,
-                    size: 28,
-                    bold: true,
+                    size: 24,
                     underline: {}
                 })
             ]
         });
 
-        const conclusionDate = new Paragraph({
+        const reportDate = new Paragraph({
             alignment: AlignmentType.CENTER,
-            spacing: { after: 100 },
+            spacing: { after: 50 },
             children: [new TextRun({ text: `от ${formatRuDate(formValue.conclusionDate)}`, font: FONT, size: 24 })]
         });
 
         const conclusionSubtitle = new Paragraph({
             alignment: AlignmentType.CENTER,
-            spacing: { after: 300 },
+            spacing: { after: 200 },
             children: [
                 new TextRun({
                     text: 'по результатам контроля качества сварных соединений/основного металла ультразвуковым методом (РУЗК)',
@@ -463,8 +464,8 @@ export class UtTestReportsDocxService {
         // ========== РЕЗУЛЬТАТЫ КОНТРОЛЯ ==========
         const resultsTitle = new Paragraph({
             alignment: AlignmentType.CENTER,
-            spacing: { before: 200, after: 200 },
-            children: [new TextRun({ text: 'РЕЗУЛЬТАТЫ КОНТРОЛЯ', font: FONT, size: 24, bold: true })]
+            spacing: { before: 100, after: 100 },
+            children: [new TextRun({ text: 'РЕЗУЛЬТАТЫ КОНТРОЛЯ', font: FONT, size: 24 })]
         });
 
         // Ширины колонок таблицы результатов (в DXA, 1440 DXA = 1 дюйм)
@@ -480,10 +481,18 @@ export class UtTestReportsDocxService {
                 }),
                 createMultilineCell([{ text: 'Диаметр и толщина стенки трубы, мм' }], { width: colWidths[1], alignment: AlignmentType.CENTER }),
                 createMultilineCell([{ text: 'Номер дефекта' }], { width: colWidths[2], alignment: AlignmentType.CENTER }),
-                createMultilineCell([{ text: 'Эквиви-валентная площадь дефекта' }, { text: 'S' }, { text: 'деф' }, { text: ', мм²' }], {
-                    width: colWidths[3],
-                    alignment: AlignmentType.CENTER
-                }),
+                createMultilineCell(
+                    [
+                        { text: 'Эквиви-валентная площадь дефекта' },
+                        { text: 'S' },
+                        { text: 'деф', subscript: true, noBreakBefore: true },
+                        { text: ', мм²', noBreakBefore: true }
+                    ],
+                    {
+                        width: colWidths[3],
+                        alignment: AlignmentType.CENTER
+                    }
+                ),
                 createMultilineCell([{ text: 'Поправки чувстви-тельности, дБ' }], { width: colWidths[4], alignment: AlignmentType.CENTER }),
                 createMultilineCell([{ text: 'Протяжен-ность' }, { text: 'L, мм' }], { width: colWidths[5], alignment: AlignmentType.CENTER }),
                 createMultilineCell([{ text: 'Высота дефекта' }, { text: 'h, мм' }], { width: colWidths[6], alignment: AlignmentType.CENTER }),
@@ -509,21 +518,21 @@ export class UtTestReportsDocxService {
             (defect) =>
                 new TableRow({
                     children: [
-                        createCell(v(defect.weldNumber, '___'), { width: colWidths[0], alignment: AlignmentType.CENTER }),
-                        createCell(`${num(defect.diameter, '___')}×${num(defect.thickness, '___')}`, {
+                        createCell(v(defect.weldNumber, '-'), { width: colWidths[0], alignment: AlignmentType.CENTER }),
+                        createCell(`${num(defect.diameter, '')}×${num(defect.thickness, '')}`, {
                             width: colWidths[1],
                             alignment: AlignmentType.CENTER
                         }),
-                        createCell(num(defect.defectNumber, '___'), { width: colWidths[2], alignment: AlignmentType.CENTER }),
-                        createCell(num(defect.defectArea, '____'), { width: colWidths[3], alignment: AlignmentType.CENTER }),
-                        createCell(num(defect.sensitivityCorrection, '___'), { width: colWidths[4], alignment: AlignmentType.CENTER }),
-                        createCell(num(defect.length, '___'), { width: colWidths[5], alignment: AlignmentType.CENTER }),
-                        createCell(num(defect.height, '___'), { width: colWidths[6], alignment: AlignmentType.CENTER }),
-                        createCell(num(defect.depth, '___'), { width: colWidths[7], alignment: AlignmentType.CENTER }),
-                        createCell(num(defect.totalLength, '___'), { width: colWidths[8], alignment: AlignmentType.CENTER }),
-                        createCell(num(defect.perimeterCoord, '_____'), { width: colWidths[9], alignment: AlignmentType.CENTER }),
-                        createCell(defect.conclusion || '______', { width: colWidths[10], alignment: AlignmentType.CENTER }),
-                        createCell(v(defect.notes, '____'), { width: colWidths[11], alignment: AlignmentType.CENTER })
+                        createCell(num(defect.defectNumber, '-'), { width: colWidths[2], alignment: AlignmentType.CENTER }),
+                        createCell(num(defect.defectArea, '-'), { width: colWidths[3], alignment: AlignmentType.CENTER }),
+                        createCell(num(defect.sensitivityCorrection, '-'), { width: colWidths[4], alignment: AlignmentType.CENTER }),
+                        createCell(num(defect.length, '-'), { width: colWidths[5], alignment: AlignmentType.CENTER }),
+                        createCell(num(defect.height, '-'), { width: colWidths[6], alignment: AlignmentType.CENTER }),
+                        createCell(num(defect.depth, '-'), { width: colWidths[7], alignment: AlignmentType.CENTER }),
+                        createCell(num(defect.totalLength, '-'), { width: colWidths[8], alignment: AlignmentType.CENTER }),
+                        createCell(num(defect.perimeterCoord, '-'), { width: colWidths[9], alignment: AlignmentType.CENTER }),
+                        createCell(defect.conclusion || '-', { width: colWidths[10], alignment: AlignmentType.CENTER }),
+                        createCell(v(defect.notes, '-'), { width: colWidths[11], alignment: AlignmentType.CENTER })
                     ]
                 })
         );
@@ -539,10 +548,9 @@ export class UtTestReportsDocxService {
             spacing: { before: 300, after: 300 },
             children: [
                 new TextRun({ text: 'Заключение о качестве сварного соединения № ', font: FONT, size: FONT_SIZE }),
-                new TextRun({ text: v(firstWeldNumber, '____'), font: FONT, size: FONT_SIZE, bold: true, underline: {} }),
+                new TextRun({ text: v(firstWeldNumber, '____'), font: FONT, size: FONT_SIZE }),
                 new TextRun({ text: ' — ', font: FONT, size: FONT_SIZE }),
                 new TextRun({ text: formValue.finalConclusion || '__________', font: FONT, size: FONT_SIZE, bold: true, underline: {} }),
-                new TextRun({ text: ' (годен, ремонт, вырезать)', font: FONT, size: FONT_SIZE })
             ]
         });
 
@@ -560,38 +568,35 @@ export class UtTestReportsDocxService {
             rows: [
                 // Контроль провел
                 new TableRow({
+                    height: {
+                        value: convertMillimetersToTwip(10), // 1 см = 10 мм
+                        rule: HeightRule.ATLEAST // Минимальная высота строки
+                    },
                     children: [
-                        createCell('Контроль провел', { width: 2000, noBorders: true }),
-                        createCell(v(formValue.inspector.fullName, 'ФИО'), { width: 2500, noBorders: true, italic: true, bold: true }),
-                        createCell(`Уровень квалификации, удостоверение № ${v(formValue.inspector.qualification, '____________________')}`, {
-                            width: 5500,
-                            noBorders: true
+                        createCell('Контроль провел', { width: 2000 }),
+                        createCell(v(formValue.inspector.fullName, 'ФИО'), { width: 2500  }),
+                        createCell(`Уровень квалификации, удостоверение № ${v(formValue.inspector.qualification, '')}`, {
+                            width: 5500
                         }),
-                        createCell('Подпись', { width: 1500, noBorders: true }),
-                        createCell(formatShortDate(formValue.inspector.date), { width: 2000, noBorders: true, italic: true })
+                        createCell('', { width: 2000 }),
+                        createCell(formatShortDate(formValue.inspector.date), { width: 1500, alignment: AlignmentType.CENTER })
                     ]
                 }),
-                // Пустая строка
-                new TableRow({
-                    children: [
-                        createCell('', { width: 2000, noBorders: true }),
-                        createCell('', { width: 2500, noBorders: true }),
-                        createCell('', { width: 5500, noBorders: true }),
-                        createCell('', { width: 1500, noBorders: true }),
-                        createCell('', { width: 2000, noBorders: true })
-                    ]
-                }),
+
                 // Заключение выдал
                 new TableRow({
+                    height: {
+                        value: convertMillimetersToTwip(10), // 1 см = 10 мм
+                        rule: HeightRule.ATLEAST // Минимальная высота строки
+                    },
                     children: [
-                        createCell('Заключение выдал', { width: 2000, noBorders: true }),
-                        createCell(v(formValue.approver.fullName, 'ФИО'), { width: 2500, noBorders: true, italic: true, bold: true }),
-                        createCell(`Уровень квалификации, удостоверение № ${v(formValue.approver.qualification, '____________________')}`, {
-                            width: 5500,
-                            noBorders: true
+                        createCell('Заключение выдал', { width: 2000 }),
+                        createCell(v(formValue.approver.fullName, 'ФИО'), { width: 2500 }),
+                        createCell(`Уровень квалификации, удостоверение № ${v(formValue.approver.qualification, '')}`, {
+                            width: 5500
                         }),
-                        createCell('Подпись', { width: 1500, noBorders: true }),
-                        createCell(formatShortDate(formValue.approver.date), { width: 2000, noBorders: true, italic: true })
+                        createCell('', { width: 2000 }),
+                        createCell(formatShortDate(formValue.approver.date), { width: 1500, alignment: AlignmentType.CENTER })
                     ]
                 })
             ]
@@ -607,20 +612,23 @@ export class UtTestReportsDocxService {
                                 orientation: PageOrientation.LANDSCAPE
                             },
                             margin: {
-                                top: convertMillimetersToTwip(10),
-                                bottom: convertMillimetersToTwip(10),
-                                left: convertMillimetersToTwip(15),
-                                right: convertMillimetersToTwip(15)
+                                top: convertMillimetersToTwip(20),      // верхнее поле страницы
+                                bottom: convertMillimetersToTwip(10),   // нижнее поле
+                                left: convertMillimetersToTwip(10),     // левое поле
+                                right: convertMillimetersToTwip(10),    // правое поле
+                                header: convertMillimetersToTwip(7),    // расстояние от верхнего края до колонтитула
+                                gutter: convertMillimetersToTwip(0)     // переплёт
                             }
-                        }
+                        },
+                        titlePage: true
                     },
                     headers: {
-                        default: header
+                        first: header
                     },
                     children: [
                         topTablesContainer,
-                        conclusionTitle,
-                        conclusionDate,
+                        utReportTitle,
+                        reportDate,
                         conclusionSubtitle,
                         resultsTitle,
                         resultsTable,
