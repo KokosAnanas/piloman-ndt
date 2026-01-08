@@ -35,7 +35,11 @@
             </ng-template>
             <ng-template #body let-row>
                 <tr>
-                    <td>{{ row.name }}</td>
+                    <!-- Ячейка "Наименование дефекта" отображается только если nameRowSpan > 0 -->
+                    <!-- Используется rowspan для объединения ячеек (https://primeng.org/table#row-span) -->
+                    @if (row.nameRowSpan > 0) {
+                        <td [attr.rowspan]="row.nameRowSpan" class="align-middle !text-center" [innerHTML]="row.name"></td>
+                    }
                     <td class="!text-center font-mono">{{ row.code }}</td>
                     <td>{{ row.type }}</td>
                     <td class="!text-center whitespace-pre-line">{{ row.allowableLength }}</td>

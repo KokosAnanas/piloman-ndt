@@ -18,4 +18,5 @@ export interface DefectRow {
     levelA: LengthCondition | null; // null = "Не допускаются"
     levelB: LengthCondition | null;
     levelC: LengthCondition | null;
+    nameRowSpan?: number; // Количество строк для объединения ячейки "Наименование дефекта" (используется для rowspan)
 }

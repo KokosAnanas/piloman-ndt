@@ -21,6 +21,7 @@ export class UtNorms {
     readonly qualityLevel = this.weldParamsStore.qualityLevel;
 
     // Данные таблицы 6.6 согласно СТО Газпром 15-1.3-004-2023
+    // nameRowSpan используется для объединения ячеек в столбце "Наименование дефекта"
     readonly defectData: DefectRow[] = [
         {
             name: 'Непротяженный',
@@ -28,63 +29,71 @@ export class UtNorms {
             type: 'Объемный, плоскостной',
             levelA: { sMultiplier: 0, maxL: 0, sum300: 30, operator: '<=' },
             levelB: { sMultiplier: 0, maxL: 0, sum300: 50, operator: '<=' },
-            levelC: { sMultiplier: 0, maxL: 0, sum300: 50, operator: '<=' }
+            levelC: { sMultiplier: 0, maxL: 0, sum300: 50, operator: '<=' },
+            nameRowSpan: 1 // Одна строка
         },
         {
-            name: 'Протяженный в сечении шва',
+            name: 'Протяженный в<br>сечении шва',
             code: 'LS1',
             type: 'Объемно-протяженный',
             levelA: { sMultiplier: 1, maxL: 15, sum300: 30, operator: '<=' },
             levelB: { sMultiplier: 2, maxL: 25, sum300: 50, operator: '<' },
-            levelC: { sMultiplier: 2, maxL: 25, sum300: 50, operator: '<' }
+            levelC: { sMultiplier: 2, maxL: 25, sum300: 50, operator: '<' },
+            nameRowSpan: 3 // Объединяет 3 строки (LS1, LS2, LS3)
         },
         {
-            name: 'Протяженный в сечении шва',
+            name: `Протяженный в<br>сечении шва`,
             code: 'LS2',
             type: 'Плоскостной по разделке кромок*',
             levelA: null,
             levelB: { sMultiplier: 2, maxL: 15, sum300: 15, operator: '<=' },
-            levelC: { sMultiplier: 2, maxL: 15, sum300: 15, operator: '<=' }
+            levelC: { sMultiplier: 2, maxL: 15, sum300: 15, operator: '<=' },
+            nameRowSpan: 0 // Ячейка не отображается (объединена с LS1)
         },
         {
-            name: 'Протяженный в сечении шва',
+            name: 'Протяженный в<br>сечении шва',
             code: 'LS3',
             type: 'Плоскостной в металле сварного шва',
             levelA: { sMultiplier: 2, maxL: 25, sum300: 25, operator: '<=' },
             levelB: { sMultiplier: 2, maxL: 30, sum300: 30, operator: '<=' },
-            levelC: { sMultiplier: 2, maxL: 30, sum300: 30, operator: '<=' }
+            levelC: { sMultiplier: 2, maxL: 30, sum300: 30, operator: '<=' },
+            nameRowSpan: 0 // Ячейка не отображается (объединена с LS1)
         },
         {
-            name: 'Протяженный в корне шва',
+            name: 'Протяженный в<br>корне шва',
             code: 'LB1',
             type: 'Плоскостной в корне (двухсторонний непровар)',
             levelA: { sMultiplier: 1, maxL: 12.5, sum300: 25, operator: '<=' },
             levelB: { sMultiplier: 2, maxL: 15, sum300: 30, operator: '<=' },
-            levelC: { sMultiplier: 2, maxL: 25, sum300: 50, operator: '<=' }
+            levelC: { sMultiplier: 2, maxL: 25, sum300: 50, operator: '<=' },
+            nameRowSpan: 4 // Объединяет 4 строки (LB1, LB2, LB3, LB4)
         },
         {
-            name: 'Протяженный в корне шва',
+            name: 'Протяженный в<br>корне шва',
             code: 'LB2',
             type: 'Плоскостной в корне шва из-за смещения кромок (непровар)',
             levelA: { sMultiplier: 2, maxL: 30, sum300: 50, operator: '<=' },
             levelB: { sMultiplier: 2, maxL: 50, sum300: 75, operator: '<=' },
-            levelC: { sMultiplier: 2, maxL: 50, sum300: 75, operator: '<=' }
+            levelC: { sMultiplier: 2, maxL: 50, sum300: 75, operator: '<=' },
+            nameRowSpan: 0 // Ячейка не отображается (объединена с LB1)
         },
         {
-            name: 'Протяженный в корне шва',
+            name: 'Протяженный в<br>корне шва',
             code: 'LB3',
             type: 'Утяжина, превышение проплава',
             levelA: { sMultiplier: 1, maxL: 30, sum300: 50, operator: '<=' },
             levelB: { sMultiplier: 2, maxL: 50, sum300: 100, operator: '<=' },
-            levelC: { sMultiplier: 2, maxL: 50, sum300: 100, operator: '<=' }
+            levelC: { sMultiplier: 2, maxL: 50, sum300: 100, operator: '<=' },
+            nameRowSpan: 0 // Ячейка не отображается (объединена с LB1)
         },
         {
-            name: 'Протяженный в корне шва',
+            name: 'Протяженный в<br>корне шва',
             code: 'LB4',
             type: 'Плоскостной по разделке кромок',
             levelA: null,
             levelB: { sMultiplier: 1, maxL: 15, sum300: 15, operator: '<=' },
-            levelC: { sMultiplier: 1, maxL: 15, sum300: 15, operator: '<=' }
+            levelC: { sMultiplier: 1, maxL: 15, sum300: 15, operator: '<=' },
+            nameRowSpan: 0 // Ячейка не отображается (объединена с LB1)
         },
         {
             name: 'Цепочка (скопление)',
@@ -92,7 +101,8 @@ export class UtNorms {
             type: 'Скопления и цепочки непротяженных дефектов',
             levelA: { sMultiplier: 1, maxL: 12.5, sum300: 25, operator: '<=' },
             levelB: { sMultiplier: 1, maxL: 15, sum300: 30, operator: '<=' },
-            levelC: { sMultiplier: 1, maxL: 15, sum300: 30, operator: '<=' }
+            levelC: { sMultiplier: 1, maxL: 15, sum300: 30, operator: '<=' },
+            nameRowSpan: 1 // Одна строка
         }
     ];
 
@@ -105,7 +115,8 @@ export class UtNorms {
             name: row.name,
             code: row.code,
             type: row.type,
-            allowableLength: this.formatAllowableLength(this.getConditionByLevel(row, level), sValue)
+            allowableLength: this.formatAllowableLength(this.getConditionByLevel(row, level), sValue),
+            nameRowSpan: row.nameRowSpan ?? 1 // Используем nameRowSpan из исходных данных (по умолчанию 1)
         }));
     });
 
